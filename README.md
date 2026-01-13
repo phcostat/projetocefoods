@@ -7,6 +7,12 @@ Link do slide de apresentação: https://www.canva.com/design/DAG-DdlmcmQ/mY93Nc
 
 Link da documentação do projeto: https://docs.google.com/document/d/15EoSN5Nsm4Pj0tdw_4NKLNECoW5nXDVnVjXUqEosv3I/edit?usp=sharing
 
+### Contatos: 
+Email: peh.costa11@gmail.com
+
+Instagram: @phcostat
+
+
 ---
 
 ## 📌 Sumário
@@ -203,7 +209,7 @@ O CEFOODS não é apenas um aplicativo, mas uma **base tecnológica escalável e
 npm install
 ionic serve
 
-## 👨‍💻 Autor
+## 👨‍💻 Autores
 
 <p align="center">
   <img src="assets/perfil.jpeg" width="160" style="border-radius:50%">
