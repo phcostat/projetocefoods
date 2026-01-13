@@ -200,6 +200,18 @@ O CEFOODS não é apenas um aplicativo, mas uma **base tecnológica escalável e
 3. Execute o projeto Spring Boot
 
 ### 🔜 Frontend
-```bash
 npm install
 ionic serve
+
+## 👨‍💻 Autor
+
+<p align="center">
+  <img src="assets/perfil.jpeg" width="160" style="border-radius:50%">
+</p>
+
+<p align="center">
+  <strong>Pedro Henrique Costa Teixeira</strong><br>
+  Técnico em Desenvolvimento de Sistemas – CEFET-MG<br>
+  Campus Timóteo
+</p>
+
