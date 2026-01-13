@@ -1,0 +1,54 @@
+<!-- src/app/pages/finalizar/finalizar.page.html -->
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Finalizar Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="voltar-container">
+  <ion-button fill="clear" color="dark" (click)="voltar()">
+    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    VOLTAR
+  </ion-button>
+</div>
+
+<ion-content class="ion-padding finalizar-shell">
+  <h3 class="section-title">Resumo do Pedido</h3>
+
+  <div class="table-box">
+    <table>
+      <thead>
+        <tr><th>PRODUTO</th><th>QTD</th><th>TOTAL</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let it of itensCart">
+          <td>{{ it.nome }}</td>
+          <td>{{ it.quantidade }}</td>
+          <td>R$ {{ (it.precoUnit * it.quantidade) | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>VALOR TOTAL</label>
+      <input readonly [value]="'R$ ' + (valorTotal | number:'1.2-2')"/>
+    </div>
+    <div class="col">
+      <label>FORMA DE PAGAMENTO</label>
+      <ion-select [(ngModel)]="formaSelecionada">
+        <ion-select-option *ngFor="let f of formasPagamento" [value]="f">{{ f }}</ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <div class="pickup-block">
+    <label>HORÁRIO DE RETIRADA:</label>
+    <ion-select [(ngModel)]="horarioRetirada">
+      <ion-select-option *ngFor="let h of horariosDisponiveis" [value]="h">{{ h }}</ion-select-option>
+    </ion-select>
+  </div>
+
+  <ion-button expand="block" color="warning" class="action-cta" (click)="confirmarPedido()">FINALIZAR PEDIDO</ion-button>
+</ion-content>

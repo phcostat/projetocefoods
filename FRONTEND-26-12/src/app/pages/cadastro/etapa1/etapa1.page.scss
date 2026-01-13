@@ -1,0 +1,215 @@
+
+.cadastro-content {
+  --background: transparent;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  position: relative;
+  background: radial-gradient(circle at -10% -30%, rgba(255,255,255,0.35) 0%, transparent 45%),
+    linear-gradient(135deg, #b9041d 0%, #e43126 55%, #ff5b45 100%);
+  font-family: 'Poppins', 'SF Pro Display', sans-serif;
+  overflow: hidden;
+}
+
+.cadastro-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/assets/shapes.svg') center/cover;
+  opacity: 0.12;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.cadastro-content::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  left: 1.5rem;
+  width: 120px;
+  height: 40px;
+  background: url('/assets/logos/logo1cefoodsbranca.png') center/contain no-repeat;
+  opacity: 0.25;
+}
+
+.cadastro-content::before,
+.cadastro-content::after {
+  box-shadow: none;
+}
+
+.cadastro-content::before {
+  mask-image: radial-gradient(circle at top, rgba(0,0,0,0.65), transparent 60%);
+}
+
+.cadastro-content::after,
+.cadastro-content::before {
+  user-select: none;
+}
+
+.card-wrap {
+  width: min(100%, 460px);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.cadastro-card {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  border-left: 8px solid #ff3b30;
+  padding: 6px;
+
+  ion-card-content {
+    padding: 22px;
+  }
+}
+
+/* header */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+
+  .brand-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff3b30 0%, #ff6a00 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 20px;
+  }
+
+  .brand-text {
+    h1 {
+      margin: 0;
+      color: #ff3b30;
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: #6e6e6e;
+      font-size: 0.9rem;
+      font-weight: 500;
+
+      span {
+        color: #ff3b30;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+/* barra de progresso */
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  .step {
+    flex: 1;
+    text-align: center;
+    color: #aaa;
+    font-size: 0.8rem;
+
+    ion-icon {
+      font-size: 22px;
+      display: block;
+      margin: auto;
+      margin-bottom: 4px;
+    }
+  }
+
+  .step.active {
+    color: #ff3b30;
+    font-weight: 600;
+  }
+}
+
+.progress-line {
+  height: 6px;
+  background: #eee;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #ff3b30 0%, #ff6a00 100%);
+    width: 33%; /* etapa1 */
+    transition: width 0.3s ease;
+  }
+
+  &.etapa2::after { width: 66%; }
+  &.etapa3::after { width: 100%; }
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  color: #555;
+}
+
+/* form */
+.form-list {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+
+  ion-item {
+    --padding-start: 0;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    --background: #fafafa;
+
+    ion-icon {
+      color: #ff3b30;
+      margin-right: 8px;
+    }
+  }
+}
+
+.cadastro-btn {
+  --background: linear-gradient(90deg, #ff3b30 0%, #ff6a00 100%);
+  --box-shadow: 0 10px 30px rgba(255,60,60,0.18);
+  color: #fff;
+  font-weight: 800;
+  height: 48px;
+  margin-top: 6px;
+}
+
+.voltar-login {
+  text-align: center;
+  margin-top: 10px;
+  color: white;
+}
+
+.voltar-login p {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+

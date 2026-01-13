@@ -1,0 +1,88 @@
+<ion-content class="cadastro-content" [fullscreen]="true">
+
+  <!-- Card centralizado -->
+  <div class="card-wrap">
+    <ion-card class="cadastro-card">
+      <ion-card-content>
+
+        <!-- Header -->
+        <div class="cadastro-header">
+
+          <!-- Link para voltar ao login -->
+          <div class="voltar-login">
+            <ion-button fill="clear" color="dark" (click)="voltarLogin()">
+              <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+              Voltar para Login
+            </ion-button>
+          </div>
+
+
+          <div class="brand">
+            <div class="brand-badge">CE</div>
+            <div class="brand-text">
+              <h1>Cadastro</h1>
+              <p class="subtitle">Crie sua conta no <span>CEFOODS</span></p>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <!-- Barra de progresso -->
+        <div class="progress-steps">
+          <div class="step active">
+            <ion-icon name="person-add-outline"></ion-icon>
+
+          </div>
+          <div class="step">
+            <ion-icon name="home-outline"></ion-icon>
+  
+          </div>
+          <div class="step">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+        
+          </div>
+        </div>
+        <div class="progress-line etapa1"></div>
+        <p class="progress-text">Etapa 1 de 3</p>
+
+        <!-- Inputs -->
+        <ion-list lines="none" class="form-list">
+          <ion-item>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input placeholder="Nome" [(ngModel)]="nome" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="people-outline" slot="start"></ion-icon>
+            <ion-input placeholder="Sobrenome" [(ngModel)]="sobrenome" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input type="email" placeholder="E-mail" [(ngModel)]="email" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-input type="tel" placeholder="Telefone" [(ngModel)]="telefone" maxlength="15"
+              (ionInput)="mascaraTelefone($event)" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input type="password" placeholder="Senha" [(ngModel)]="senha" required></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <!-- Botão -->
+        <ion-button class="cadastro-btn" expand="block" shape="round" (click)="proximo()">
+          Próximo
+          <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

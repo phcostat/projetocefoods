@@ -1,0 +1,52 @@
+﻿<ion-content class="admin-shell login-mode" [fullscreen]="true">
+  <div class="admin-atmosphere" aria-hidden="true"></div>
+  <div class="admin-panel">
+    <section class="login-panel">
+      <ion-card class="auth-card">
+        <ion-card-header>
+          <ion-card-subtitle>Área exclusiva para administradores.</ion-card-subtitle>
+          <ion-card-title>Login do console</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label position="floating">E-mail corporativo</ion-label>
+            <ion-input type="email" [(ngModel)]="email"></ion-input>
+            <ion-icon slot="end" name="mail-outline"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="floating">Senha</ion-label>
+            <ion-input type="password" [(ngModel)]="senha"></ion-input>
+            <ion-icon slot="end" name="lock-closed-outline"></ion-icon>
+          </ion-item>
+
+          <div class="prefs">
+            <ion-toggle [(ngModel)]="rememberDevice" justify="space-between">
+              Lembrar este dispositivo
+            </ion-toggle>
+          </div>
+
+          <div class="actions">
+            <ion-button expand="block" class="login-btn" (click)="entrar()" [disabled]="isLoading">
+              <ion-spinner slot="start" *ngIf="isLoading"></ion-spinner>
+              <span *ngIf="!isLoading">Entrar no ambiente seguro</span>
+              <ion-icon *ngIf="!isLoading" slot="end" name="lock-open-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" expand="block" size="small" class="return-btn" (click)="voltarParaLogin()">
+              Voltar ao login convencional
+              <ion-icon slot="end" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          <p class="error" *ngIf="erro">{{ erro }}</p>
+
+          <div class="login-footnote">
+            <p>Precisa de ajuda? Solicite suporte.</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </section>
+  </div>
+</ion-content>
+

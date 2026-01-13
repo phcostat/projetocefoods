@@ -1,0 +1,89 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button (click)="irNotificacoes()">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="has-footer brand-watermark">
+
+  <!-- Filtros de categorias -->
+  <div class="categorias-container">
+    <ion-chip outline (click)="filtrarPorCategoria(null)" [color]="!categoriaSelecionada ? 'danger' : 'medium'">
+      <ion-label>Todos</ion-label>
+    </ion-chip>
+
+    <!-- Favoritos junto com todos -->
+    <ion-chip outline (click)="mostrarFavoritos = !mostrarFavoritos; carregarProdutos()" [color]="mostrarFavoritos ? 'warning' : 'medium'">
+      <ion-icon name="heart" slot="start"></ion-icon>
+      <ion-label>Favoritos</ion-label>
+    </ion-chip>
+
+    <ion-chip *ngFor="let c of categorias" outline
+      (click)="filtrarPorCategoria(c.idCategoria)"
+      [color]="categoriaSelecionada === c.idCategoria ? 'danger' : 'medium'">
+      <ion-icon [name]="c.icone || 'apps-outline'" slot="start"></ion-icon>
+      <ion-label>{{ c.nome }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <div class="container">
+    <h1 class="menu-title">{{ obterTituloMenu() }}</h1>
+    <p class="subtitle">Itens que fazem sucesso</p>
+    <div class="subline-red"></div>
+
+    <div class="produtos-grid">
+      <ion-card *ngFor="let p of produtos" [class.fechado]="p.lojaFechada" (click)="abrirDetalhesProduto(p)">
+        <img [src]="p.imagem || 'assets/avatar_padrao.png'" alt="produto">
+        <ion-card-content>
+          <h2 class="produto-nome">{{ p.nome }}</h2>
+          <p class="produto-loja">{{ p.nomeLoja }}</p>
+          <p class="produto-preco">R$ {{ p.preco | number:'1.2-2' }}</p>
+          <div class="avaliacao">
+            <ion-icon *ngFor="let i of [1,2,3,4,5]" [name]="i <= (p.mediaAvaliacaoInt ?? 0) ? 'star' : 'star-outline'"></ion-icon>
+            <span *ngIf="p.mediaAvaliacao && p.mediaAvaliacao > 0">({{ p.mediaAvaliacao.toFixed(1) }})</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="categoria-vazia favoritos" *ngIf="semResultadosFavoritos">
+      <ion-icon name="heart-outline"></ion-icon>
+      <h3>Sem favoritos por aqui</h3>
+      <p>{{ mensagemFavoritosVazio }}</p>
+      <small>Toque no ícone de coração na página do produto para salvá-lo.</small>
+    </div>
+
+    <div class="categoria-vazia" *ngIf="produtos.length === 0 && categoriaSelecionada !== null && !mostrarFavoritos">
+      <ion-icon name="cafe-outline"></ion-icon>
+      <h3>Poxa!</h3>
+      <p>Infelizmente não há itens disponíveis em {{ nomeCategoriaAtual() || 'esta categoria' }} no momento.</p>
+      <small>Tente outra categoria ou volte mais tarde.</small>
+    </div>
+  </div>
+
+  <button class="btn-carrinho-fixo" (click)="irCarrinho()">
+    <ion-icon name="cart"></ion-icon>
+  </button>
+
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" routerLink="/inicio"><ion-icon name="home"></ion-icon></button>
+      <button class="btn-icon" (click)="irPesquisa()"><ion-icon name="search"></ion-icon></button>
+      <button class="btn-icon" routerLink="/conversas"><ion-icon name="chatbubbles"></ion-icon></button>
+      <button class="btn-icon" (click)="abrirLojaIcon()"><ion-icon name="storefront"></ion-icon></button>
+      <button class="btn-icon" (click)="irPerfil()"><ion-icon name="person"></ion-icon></button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,76 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+.brand-logo {
+	display: inline-flex;
+	align-items: center;
+	height: 32px;
+	max-width: 160px;
+}
+
+.brand-logo img,
+.brand-logo picture,
+.brand-logo svg {
+	height: 100%;
+	width: auto;
+}
+
+.brand-watermark {
+	position: relative;
+}
+
+.brand-watermark::before {
+	content: "";
+	position: absolute;
+	inset: 10% 0 auto;
+	width: 240px;
+	height: 120px;
+	margin: 0 auto;
+	background-image: url("assets/logos/logo1cefoodscinza.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	opacity: 0.08;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.brand-watermark > * {
+	position: relative;
+	z-index: 1;
+}

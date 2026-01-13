@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defautHref="/tarefa"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tarefa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+    <ion-item>
+      <ion-label position="stacked">Descrição</ion-label>
+      <ion-input type="text" formControlName="descricao"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Tipo</ion-label>        
+      <ion-select value="" okText="Confirmar" cancelText="Cancelar" placeholder="Selecione um tipo" formControlName="tipo">   
+      <ion-select-option *ngFor="let tipo of tipos" [value]="tipo">{{tipo.descricao}}</ion-select-option> 
+    </ion-select>
+    </ion-item>   
+    <ion-item>
+      <ion-label position="stacked">Data</ion-label>               
+      <ion-datetime presentation="date" formControlName="data"> </ion-datetime>
+    </ion-item>
+    <ion-button type="submit" expand="block" color="primary" [disabled]="!formGroup.valid">Salvar</ion-button>
+  </form>
+</ion-content>
+

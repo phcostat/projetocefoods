@@ -1,0 +1,67 @@
+.header-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.top-bar {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+  color: #fff;
+  padding: 8px 12px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.usuario {
+  background:#FFD54F;
+  color:#000;
+  padding:6px 10px;
+  border-radius: 18px;
+  font-weight:600;
+}
+
+.has-footer {
+  --padding-bottom: 80px;
+}
+
+
+.perfil-container {
+  padding: 16px;
+}
+
+.foto-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+
+  input[type="file"] {
+    margin-top: 8px;
+  }
+}
+
+.foto-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 100px;
+    color: #888;
+  }
+}
+.voltar-container {
+  padding: 8px 12px;
+}

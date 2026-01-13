@@ -1,0 +1,184 @@
+.header-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+ion-toolbar {
+  --min-height: 72px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+  padding: 6px 4px;
+}
+
+.header-label {
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+
+.lista-notas-content {
+  --background: #fff;
+  padding: 32px clamp(20px, 6vw, 60px) 120px;
+}
+
+.intro-panel {
+  margin: 20px auto 32px;
+  max-width: 960px;
+  text-align: left;
+  padding-inline: clamp(12px, 4vw, 32px);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.intro-panel h1 {
+  margin: 6px 0 8px;
+  font-size: 1.45rem;
+  color: #0f172a;
+}
+
+.intro-panel p {
+  margin: 0;
+  color: #4b5563;
+  max-width: 520px;
+}
+
+
+.notes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding-inline: clamp(16px, 5vw, 48px);
+}
+
+ .nota-slide {
+  border-radius: 18px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.nota-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
+  width: 100%;
+}
+
+.nota-card {
+  border: 1px solid #f3f4f6;
+  border-radius: 18px;
+  padding: 26px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+
+.nota-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+}
+
+.nota-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nota-options ion-item-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 64px;
+  font-size: 1.4rem;
+}
+
+.nota-card h2 {
+  margin: 4px 0 0;
+  font-size: 1.05rem;
+  color: #111827;
+}
+
+.nota-data {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  color: #9ca3af;
+}
+
+.nota-preview {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.nota-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #9ca3af;
+}
+
+.anexos {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.estado-vazio {
+  text-align: center;
+  margin: 80px auto 0;
+  padding: 0 24px;
+  color: #6b7280;
+  max-width: 420px;
+}
+
+.estado-vazio ion-icon {
+  font-size: 3rem;
+  color: #fbbf24;
+  margin-bottom: 12px;
+}
+
+.estado-vazio h3 {
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+@media (min-width: 768px) {
+  .lista-notas-content {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  .intro-panel {
+    padding: 0;
+  }
+
+  .intro-panel h1 {
+    font-size: 1.8rem;
+  }
+}

@@ -1,0 +1,62 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar">
+      <ion-button fill="clear" color="light" (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <div class="header-label">bloco de notas</div>
+      <ion-button fill="clear" color="light" (click)="novo()">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="lista-notas-content">
+  <section class="intro-panel">
+    <p class="eyebrow">Notas da loja</p>
+    <h1>Organize lembretes e anexos em um só lugar.</h1>
+    <p>Mantenha registros rápidos para alinhar tarefas com o time.</p>
+  </section>
+
+  <section class="notes-grid" *ngIf="notas?.length; else vazio">
+    <ion-item-sliding class="nota-slide" *ngFor="let nota of notas">
+      <ion-item lines="none" class="nota-item" (click)="abrirDetalhes(nota)">
+        <div class="nota-card">
+          <header>
+            <div>
+              <p class="nota-data">{{ nota.dataCriacao | date:'dd MMM yyyy, HH:mm' }}</p>
+              <h2>{{ nota.titulo }}</h2>
+            </div>
+          </header>
+
+          <p class="nota-preview">{{ nota.texto | slice:0:160 }}<span *ngIf="(nota.texto?.length || 0) > 160">...</span></p>
+
+          <div class="nota-meta">
+            <div class="anexos" *ngIf="nota.anexos?.length">
+              <ion-icon name="attach-outline"></ion-icon>
+              <span>{{ nota.anexos.length }} anex{{ nota.anexos.length === 1 ? 'o' : 'os' }}</span>
+            </div>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item-options side="end" class="nota-options">
+        <ion-item-option color="warning" (click)="editarNota(nota.idNota); $event.stopPropagation()">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="excluirNota(nota.idNota); $event.stopPropagation()">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </section>
+
+  <ng-template #vazio>
+    <div class="estado-vazio">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <h3>Você ainda não registrou notas</h3>
+      <p>Use o botão acima para criar seu primeiro lembrete.</p>
+    </div>
+  </ng-template>
+</ion-content>

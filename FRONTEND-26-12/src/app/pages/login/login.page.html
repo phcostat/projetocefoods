@@ -1,0 +1,80 @@
+<ion-content class="login-shell" [fullscreen]="true" scroll-y="false">
+  <div class="login-stage">
+    <div class="hero-cover" aria-label="Destaque Cefoods">
+      <div class="hero-gradient"></div>
+      <div class="hero-text">
+        <div class="hero-logo brand-logo">
+          <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods" />
+        </div>
+        <p class="hero-kicker">Gastronomia inteligente ao seu alcance</p>
+        <h1>Produtos com a precisão dos grandes apps.</h1>
+        <ul class="hero-highlights">
+          <li>
+            <ion-icon name="flash-outline"></ion-icon>
+            Pagamentos instantâneos e fila zero.
+          </li>
+        </ul>
+      </div>
+      <div class="hero-watermark">
+        <img src="assets/logos/logo1cefoodscinza.png" alt="Marca Cefoods" />
+      </div>
+    </div>
+
+    <div class="login-panel">
+      <ion-card class="login-card">
+        <ion-card-content>
+          <div class="brand">
+            <div class="brand-emblem">
+              <ion-icon name="cart-outline" aria-hidden="true"></ion-icon>
+            </div>
+            <div class="brand-text">
+              <h2>Seja Bem-Vindo</h2>
+              <p class="subtitle">Acesse seu universo de pedidos e conversas</p>
+            </div>
+          </div>
+
+          <ion-item>
+            <ion-label position="floating">E-mail ou Login</ion-label>
+            <ion-input [(ngModel)]="emailOrLogin" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Senha</ion-label>
+            <ion-input [(ngModel)]="senha" type="password"></ion-input>
+          </ion-item>
+
+          <div class="actions">
+            <ion-button class="login-btn" expand="block" shape="round" (click)="entrar()">
+              Entrar
+              <ion-icon slot="end" name="log-in-outline"></ion-icon>
+            </ion-button>
+
+            <div *ngIf="erro" class="error">{{ erro }}</div>
+
+            <ion-button fill="clear" expand="block" (click)="irCadastro()">
+              Criar minha conta
+            </ion-button>
+          </div>
+
+          <div class="social-login">
+            <p>ou entre com</p>
+            <div class="social-buttons">
+              <ion-button fill="outline" color="dark">
+                <ion-icon slot="icon-only" name="logo-google"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline" color="dark">
+                <ion-icon slot="icon-only" name="logo-apple"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+
+          <div class="admin-redirect" aria-label="Acesso administrativo">
+            <ion-button fill="outline" size="small" color="dark" (click)="irAdminLogin()">
+              Painel administrativo
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

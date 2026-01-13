@@ -1,0 +1,68 @@
+<ion-content class="cadastro-content" [fullscreen]="true">
+
+  <!-- Card centralizado -->
+  <div class="card-wrap">
+    <ion-card class="cadastro-card">
+      <ion-card-content>
+
+        <!-- Header -->
+        <div class="cadastro-header">
+          <div class="voltar-login">
+            <ion-button fill="clear" color="dark" (click)="voltar()">
+              <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+              Voltar
+            </ion-button>
+          </div>
+
+          <h2>Quase pronto!</h2>
+          <p>Adicione sua foto de perfil e finalize o cadastro 🌟</p>
+        </div>
+
+        <!-- Barra de progresso -->
+        <div class="progress-steps">
+          <div class="step active">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </div>
+          <div class="step active">
+            <ion-icon name="home-outline"></ion-icon>
+          </div>
+          <div class="step active">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+          </div>
+        </div>
+        <div class="progress-line etapa3"></div>
+        <p class="progress-text">Etapa 3 de 3</p>
+
+        <!-- Formulário -->
+        <ion-list lines="none" class="form-list">
+
+          <!-- Upload de foto -->
+          <ion-item class="foto-item">
+            <ion-label>Foto de Perfil (opcional)</ion-label>
+            <input type="file" accept="image/*" (change)="selecionarFoto($event)">
+          </ion-item>
+          <div class="foto-preview" *ngIf="fotoPreview">
+            <img [src]="fotoPreview" alt="Prévia da foto de perfil" />
+          </div>
+
+          <ion-item>
+            <ion-icon name="cash-outline" slot="start"></ion-icon>
+            <ion-input placeholder="Chave Pix (opcional)" [(ngModel)]="chavePix"></ion-input>
+          </ion-item>
+
+        </ion-list>
+
+        <!-- Botões -->
+        <div>
+
+          <ion-button class="cadastro-btn" expand="block" shape="round" (click)="finalizarCadastro()">
+            Finalizar Cadastro
+            <ion-icon slot="end" name="checkmark-done-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

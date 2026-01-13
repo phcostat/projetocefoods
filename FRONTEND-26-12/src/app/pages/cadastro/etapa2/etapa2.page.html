@@ -1,0 +1,85 @@
+<ion-content class="cadastro-content" [fullscreen]="true">
+
+  <!-- Card centralizado -->
+  <div class="card-wrap">
+    <ion-card class="cadastro-card">
+      <ion-card-content>
+
+        <!-- Header -->
+        <div class="cadastro-header">
+          <div class="voltar-login">
+            <ion-button fill="clear" color="dark" (click)="voltar()">
+              <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+              Voltar
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- Barra de progresso -->
+        <div class="progress-steps">
+          <div class="step active">
+            <ion-icon name="person-add-outline"></ion-icon>
+          
+          </div>
+          <div class="step active">
+            <ion-icon name="home-outline"></ion-icon>
+          
+          </div>
+          <div class="step">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+         
+          </div>
+        </div>
+        <div class="progress-line etapa1"></div>
+        <p class="progress-text">Etapa 2 de 3</p>
+
+        <!-- Formulário -->
+        <ion-list lines="none" class="form-list">
+          <ion-item>
+            <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+            <ion-input placeholder="CPF" [(ngModel)]="cpf" maxlength="14" 
+                       (ionInput)="mascaraCpf($event)" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-input type="date" placeholder="Data de Nascimento" [(ngModel)]="dataNascimento" required></ion-input>
+          </ion-item>
+
+          <!-- Cards tipo de usuário (vertical) -->
+          <div class="tipo-usuario-list">
+            <div 
+              class="tipo-card" 
+              *ngFor="let t of tipos" 
+              [class.selecionado]="tipoUsuario === t.value"
+              (click)="selecionarTipo(t.value)">
+              
+              <ion-icon [name]="t.icon" class="tipo-icon"></ion-icon>
+              <div class="tipo-info">
+                <h3>{{ t.label }}</h3>
+                <p>{{ t.desc }}</p>
+              </div>
+            </div>
+          </div>
+
+          <ion-item>
+            <ion-icon name="at-outline" slot="start"></ion-icon>
+            <ion-input placeholder="@login" [(ngModel)]="login" required></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <!-- Botões -->
+        <div>
+          
+
+          <ion-button class="cadastro-btn" expand="block"  shape="round" (click)="proximo()">
+            Próximo
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

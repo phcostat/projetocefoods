@@ -1,0 +1,52 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ modoEdicao ? 'Editar Nota' : 'Nova Nota' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Título -->
+  <ion-item>
+    <ion-label position="stacked">Título</ion-label>
+    <ion-input [(ngModel)]="titulo"></ion-input>
+  </ion-item>
+
+  <!-- Texto -->
+  <ion-item>
+    <ion-label position="stacked">Texto</ion-label>
+    <ion-textarea [(ngModel)]="texto" rows="6"></ion-textarea>
+  </ion-item>
+
+  <!-- Anexos -->
+  <ion-item>
+    <ion-label>Anexos</ion-label>
+    <input type="file" (change)="onFilesSelected($event)" multiple accept="*/*" />
+  </ion-item>
+
+  <!-- Lista de arquivos adicionados -->
+  <ion-list *ngIf="arquivos.length">
+    <ion-item *ngFor="let f of arquivos; let i = index">
+      <ion-label>{{ f.name }}</ion-label>
+      <ion-button fill="clear" color="danger" (click)="removerArquivo(i)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Anexos existentes (somente leitura) -->
+  <ion-list *ngIf="notaExistente?.anexos?.length">
+    <ion-item *ngFor="let a of notaExistente.anexos">
+      <ion-label>{{ a.nomeArquivo }} ({{ a.tamanho | number }} bytes)</ion-label>
+      <ion-button fill="clear" color="primary" (click)="baixarAnexoExistente(a)">
+        <ion-icon name="download"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="success" (click)="salvar()">Salvar</ion-button>
+</ion-content>

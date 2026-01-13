@@ -1,0 +1,96 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <ion-button (click)="voltar()" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <div class="logo loja-marca">
+        <span>{{ loja?.nomeFantasia || 'Loja' }}</span>
+      </div>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button (click)="irNotificacoes()">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="abrirChat()" *ngIf="loja?.idLoja">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="has-footer brand-watermark">
+  <!-- Banner sem texto (apenas visual) -->
+  <div class="capa-loja" [style.background-image]="'url(' + (loja?.fotoCapa || 'assets/avatar_padrao.png') + ')'">
+    <div class="overlay"></div>
+  </div>
+
+  <!-- Card de informações da loja (fora do banner) -->
+  <div class="loja-info-card">
+    <div class="avatar">
+      <img [src]="loja?.fotoCapa || 'assets/avatar_padrao.png'" alt="avatar loja" />
+    </div>
+    <div class="info">
+      <h1>{{ loja?.nomeFantasia || 'Loja' }}</h1>
+      <p class="descricao" *ngIf="loja?.descricao">{{ loja?.descricao }}</p>
+      <div class="status-chips">
+        <ion-chip color="danger" outline *ngIf="lojaSuspensa">
+          <ion-icon name="alert-circle" slot="start"></ion-icon>
+          Suspensa
+        </ion-chip>
+        <ion-chip color="medium" outline *ngIf="!lojaSuspensa && lojaFechada">
+          <ion-icon name="moon" slot="start"></ion-icon>
+          Temporariamente fechada
+        </ion-chip>
+      </div>
+      <div class="pagamentos">
+        <ion-chip *ngIf="loja?.aceitaPix">Pix</ion-chip>
+        <ion-chip *ngIf="loja?.aceitaCartao">Cartão</ion-chip>
+        <ion-chip *ngIf="loja?.aceitaDinheiro">Dinheiro</ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produtos agrupados por categoria (tópicos) -->
+  <div class="container categorias">
+    <div *ngIf="produtos?.length === 0" class="empty">Nenhum produto encontrado para esta loja.</div>
+    <ng-container *ngFor="let c of categorias">
+      <ng-container *ngIf="produtosPorCategoria[c.idCategoria]?.length">
+        <div class="categoria-header">
+          <div class="bar"></div>
+          <h3>{{ c.nome }}</h3>
+        </div>
+        <div class="lista-produtos">
+          <div class="produto-card" *ngFor="let p of produtosPorCategoria[c.idCategoria]" (click)="abrirDetalhesProduto(p)"
+            [class.fechado]="lojaSuspensa || lojaFechada">
+            <span class="badge-fechada" *ngIf="lojaSuspensa">Loja suspensa</span>
+            <span class="badge-fechada" *ngIf="!lojaSuspensa && lojaFechada">Loja fechada</span>
+            <img [src]="p.imagem || 'assets/imagem-produto.png'" alt="produto">
+            <div class="produto-info">
+              <h2>{{ p.nome }}</h2>
+              <div class="avaliacao">
+                <ion-icon *ngFor="let i of [1,2,3,4,5]" [name]="i <= (p.mediaAvaliacaoInt ?? 0) ? 'star' : 'star-outline'"></ion-icon>
+                <span class="media-text" *ngIf="p.mediaAvaliacao && p.mediaAvaliacao > 0">({{ p.mediaAvaliacao.toFixed(1) }})</span>
+              </div>
+              <p class="categoria">{{ getCategoriaNome(p.idCategoria) }}</p>
+            </div>
+            <div class="preco"><span>R$ {{ p.preco | number:'1.2-2' }}</span></div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" routerLink="/inicio"><ion-icon name="home"></ion-icon></button>
+      <button class="btn-icon" (click)="irPesquisa()"><ion-icon name="search"></ion-icon></button>
+      <button class="btn-icon" routerLink="/conversas"><ion-icon name="chatbubbles"></ion-icon></button>
+      <button class="btn-icon" (click)="irCarrinho()"><ion-icon name="cart"></ion-icon></button>
+      <button class="btn-icon" (click)="irPerfil()"><ion-icon name="person"></ion-icon></button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

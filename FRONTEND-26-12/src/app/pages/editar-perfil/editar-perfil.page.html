@@ -1,0 +1,110 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<div class="voltar-container">
+  <ion-button fill="clear" color="dark" (click)="voltar()">
+    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    VOLTAR
+  </ion-button>
+</div>
+
+<ion-content>
+  <div class="perfil-container">
+    <!-- Foto de perfil -->
+    <div class="foto-section">
+      <div class="foto-preview" [style.backgroundImage]="fotoPreview ? 'url(' + fotoPreview + ')' : 'none'">
+        <ion-icon *ngIf="!fotoPreview" name="person-circle-outline"></ion-icon>
+      </div>
+      <input type="file" accept="image/*" (change)="atualizarFoto($event)">
+    </div>
+
+    <!-- Acordeões com categorias -->
+    <ion-accordion-group expand="inset">
+
+      <!-- Dados Pessoais -->
+      <ion-accordion value="dados-pessoais">
+        <ion-item slot="header">
+          <ion-label>Dados Pessoais</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item>
+            <ion-label position="stacked">Nome</ion-label>
+            <ion-input [(ngModel)]="formData.nome"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">CPF</ion-label>
+            <ion-input [(ngModel)]="formData.cpf" readonly></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Data de Nascimento</ion-label>
+            <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="formData.dataNascimento"></ion-datetime>
+          </ion-item>
+        </div>
+      </ion-accordion>
+
+      <!-- Informações de Contato -->
+      <ion-accordion value="contato">
+        <ion-item slot="header">
+          <ion-label>Informações de Contato</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item>
+            <ion-label position="stacked">E-mail</ion-label>
+            <ion-input [(ngModel)]="formData.email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Telefone</ion-label>
+            <ion-input [(ngModel)]="formData.telefone"></ion-input>
+          </ion-item>
+        </div>
+      </ion-accordion>
+
+      <!-- Acesso -->
+      <ion-accordion value="acesso">
+        <ion-item slot="header">
+          <ion-label>Credenciais de Acesso</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item>
+            <ion-label position="stacked">Login</ion-label>
+            <ion-input [(ngModel)]="formData.login"></ion-input>
+          </ion-item>
+        </div>
+      </ion-accordion>
+
+      <!-- Pagamentos -->
+      <ion-accordion value="pagamentos">
+        <ion-item slot="header">
+          <ion-label>Informações de Pagamento</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item>
+            <ion-label position="stacked">Chave Pix</ion-label>
+            <ion-input [(ngModel)]="formData.chavePix"></ion-input>
+          </ion-item>
+        </div>
+      </ion-accordion>
+
+      <!-- Segurança -->
+      <ion-accordion value="seguranca">
+        <ion-item slot="header">
+          <ion-label>Segurança</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-button expand="block" fill="outline" color="medium" (click)="alterarSenha()">Alterar Senha</ion-button>
+          <ion-button expand="block" color="danger" (click)="desativarConta()">Desativar Conta</ion-button>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <!-- Botão Salvar -->
+    <ion-button expand="block" color="success" (click)="salvarAlteracoes()">Salvar Alterações</ion-button>
+  </div>
+</ion-content>

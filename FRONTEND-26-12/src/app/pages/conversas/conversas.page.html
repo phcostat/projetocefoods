@@ -1,0 +1,54 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button (click)="irNotificacoes()">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="has-footer brand-watermark">
+  <div class="heading">
+    <h1>Suas conversas</h1>
+    <p>Continue o papo com seus vendedores favoritos e acompanhe pedidos em tempo real.</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!conversations?.length">
+    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+    <p>Você ainda não iniciou nenhuma conversa.</p>
+  </div>
+
+  <ion-list *ngIf="conversations?.length" class="conversation-list">
+    <ion-item *ngFor="let c of conversations" (click)="open(c)" lines="none">
+      <ion-avatar slot="start">
+        <img [src]="c.avatarUrl || 'assets/avatar_padrao.png'" alt="avatar" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ c.lojaNome || c.otherName || ('Usuário ' + c.otherId) }}</h3>
+        <p>{{ c.lastMessage || 'Sem mensagens ainda' }}</p>
+      </ion-label>
+      <div slot="end" class="meta">
+        <ion-note>{{ c.lastAt | date:'shortTime' }}</ion-note>
+        <ion-badge *ngIf="c.unread" color="danger">{{ c.unread }}</ion-badge>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" routerLink="/inicio"><ion-icon name="home"></ion-icon></button>
+      <button class="btn-icon" routerLink="/pesquisa"><ion-icon name="search"></ion-icon></button>
+      <button class="btn-icon active"><ion-icon name="chatbubbles"></ion-icon></button>
+      <button class="btn-icon" routerLink="/carrinho"><ion-icon name="cart"></ion-icon></button>
+      <button class="btn-icon" routerLink="/perfil"><ion-icon name="person"></ion-icon></button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

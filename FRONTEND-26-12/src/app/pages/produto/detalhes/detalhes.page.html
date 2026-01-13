@@ -1,0 +1,194 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ nomeUsuario }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detalhes-shell" *ngIf="produto">
+  <section class="product-hero">
+    <div class="hero-media">
+      <div class="media-frame">
+        <ion-img [src]="produto.imagem || 'assets/img/no-image.png'"></ion-img>
+        <div class="floating-badge">
+          <ion-icon name="sparkles-outline"></ion-icon>
+          <div>
+            <strong>{{ (produto.mediaAvaliacao || produto.mediaAvaliacaoInt || 0) | number:'1.1-1' }}</strong>
+            <span>Média dos clientes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-info">
+      <div class="title-row">
+        <div>
+          <p class="mini-label">Produto especial</p>
+          <h1>{{ produto.nome }}</h1>
+        </div>
+        <div class="price-actions">
+          <ion-chip color="warning" class="price-chip">
+            <ion-icon name="cash-outline"></ion-icon>
+            <span>R$ {{ produto.preco | number:'1.2-2' }}</span>
+          </ion-chip>
+          <ion-button type="button"
+                      fill="clear"
+                      class="favorite-btn"
+                      [class.favorited]="favoritoAtivo"
+                      [disabled]="processandoFavorito"
+                      (click)="alternarFavorito()"
+                      aria-label="Adicionar aos favoritos">
+            <ion-icon *ngIf="!processandoFavorito" slot="icon-only" [name]="favoritoAtivo ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-spinner *ngIf="processandoFavorito" name="crescent"></ion-spinner>
+          </ion-button>
+        </div>
+      </div>
+
+      <p class="description">{{ produto.descricao }}</p>
+
+      <div class="meta-grid">
+        <div class="meta-card">
+          <ion-icon name="pricetags-outline"></ion-icon>
+          <div>
+            <span>Categoria</span>
+            <strong>{{ produto.categoria.nome || 'Diversos' }}</strong>
+          </div>
+        </div>
+        <div class="meta-card">
+          <ion-icon name="timer-outline"></ion-icon>
+          <div>
+            <span>Status</span>
+            <strong [class.disponivel]="produto.disponivel !== false">
+              {{ produto.disponivel === false ? 'Indisponível' : 'Disponível' }}
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="interactive-panel">
+    <ion-card class="control-card quantity-card">
+      <ion-card-header>
+        <ion-card-subtitle>Monte seu pedido</ion-card-subtitle>
+        <ion-card-title>Quantidade & Total</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="quantity-controls">
+          <ion-button fill="clear" size="large" shape="round" (click)="alterarQuantidade(-1)">
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+          <div class="quantity-display">
+            <span>{{ quantidadeDesejada }}</span>
+            <small>unidades</small>
+          </div>
+          <ion-button fill="clear" size="large" shape="round" color="success" (click)="alterarQuantidade(1)">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="total-display">
+          <div>
+            <span>Total estimado</span>
+            <strong>R$ {{ valorTotal | number:'1.2-2' }}</strong>
+          </div>
+          <ion-chip color="success" outline>
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+            <span>Compra segura</span>
+          </ion-chip>
+        </div>
+        <ion-button expand="block" color="warning" size="large" class="cta-button" (click)="adicionarAoCarrinho()">
+          <ion-icon slot="start" name="bag-add-outline"></ion-icon>
+          Adicionar ao carrinho
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="control-card rating-card">
+      <ion-card-header>
+        <ion-card-subtitle>Experiência do cliente</ion-card-subtitle>
+        <ion-card-title>Avalie este produto</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="estrelas">
+          <ion-icon *ngFor="let estrela of [1,2,3,4,5]"
+                    [class.filled]="avaliacao >= estrela"
+                    [name]="avaliacao >= estrela ? 'star' : 'star-outline'"
+                    (click)="avaliar(estrela)"></ion-icon>
+        </div>
+        <p class="micro-copy">Suas estrelas ajudam outros clientes a decidirem mais rápido.</p>
+      </ion-card-content>
+    </ion-card>
+  </section>
+
+  <section class="comments-panel">
+    <div class="section-header">
+      <div>
+        <p class="mini-label">Opiniões reais</p>
+        <h2>Comentários</h2>
+      </div>
+      <ion-chip color="medium" outline>{{ comentarios.length }} registro(s)</ion-chip>
+    </div>
+
+    <div class="empty-comments" *ngIf="comentarios.length === 0">
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      <p>Ainda não há comentários. Seja o primeiro a avaliar!</p>
+    </div>
+
+    <ion-card class="comment-card" *ngFor="let c of comentarios">
+      <div class="comment-header">
+        <ion-avatar>
+          <img [src]="c.autorFoto || 'assets/img/no-image.png'" alt="Foto do autor">
+        </ion-avatar>
+        <div>
+          <strong>{{ c.autorNome }}</strong>
+          <span>{{ c.data | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <ion-icon name="quote"></ion-icon>
+      </div>
+      <p>{{ c.texto }}</p>
+    </ion-card>
+
+    <ion-card class="comment-form">
+      <ion-card-header>
+        <ion-card-subtitle>Compartilhe sua experiência</ion-card-subtitle>
+        <ion-card-title>Deixe um comentário</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none" class="comment-input">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          <ion-textarea auto-grow="true" [(ngModel)]="novoComentario" placeholder="Digite seu comentário"></ion-textarea>
+        </ion-item>
+        <ion-button expand="block" color="primary" (click)="adicionarComentario()">
+          <ion-icon slot="start" name="send-outline"></ion-icon>
+          Enviar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </section>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" (click)="irMenu()">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="abrirLojaIcon()">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

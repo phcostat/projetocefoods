@@ -1,0 +1,232 @@
+﻿<ion-header class="admin-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Usuários</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="admin-shell" [fullscreen]="true">
+  <div class="admin-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Tabela: usuários</p>
+      <h1>Gerencie perfis, status e permissões sem sair do app.</h1>
+      <p class="section-subtitle">Dados espelhados em tempo real com o banco principal.</p>
+    </div>
+  </div>
+
+  <div class="admin-panel">
+    <section class="section-card">
+      <div class="toolbar">
+        <ion-searchbar placeholder="Buscar usuário, e-mail" (ionInput)="atualizarPesquisa($event)"></ion-searchbar>
+        <ion-select label="Status" interface="popover" (ionChange)="atualizarStatus($event)" value="todos">
+          <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</ion-select-option>
+        </ion-select>
+        <ion-select label="Perfil" interface="popover" (ionChange)="atualizarPerfil($event)" value="todos">
+          <ion-select-option *ngFor="let option of perfilOptions" [value]="option.value">{{ option.label }}</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="table-card">
+        <table class="data-table" *ngIf="filteredUsuarios$ | async as usuarios">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Pedidos</th>
+              <th>Última atividade</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of usuarios; trackBy: trackById">
+              <td>
+                <strong>{{ usuario.nome }}</strong>
+                <small>{{ usuario.email }}</small>
+              </td>
+              <td>{{ usuario.perfil | titlecase }}</td>
+              <td>
+                <span class="status-pill" [ngClass]="{
+                  'success': usuario.status === 'ativo',
+                  'warning': usuario.status === 'pendente',
+                  'danger': usuario.status === 'suspenso'
+                }">{{ usuario.status }}</span>
+              </td>
+              <td>{{ usuario.pedidosTotal }}</td>
+              <td>{{ usuario.ultimaAtividade | date:'shortDate' }}</td>
+              <td class="actions">
+                <ion-button size="small" fill="clear" color="medium" (click)="verDetalhes(usuario)">
+                  <ion-icon slot="start" name="eye-outline"></ion-icon>
+                  Detalhes
+                </ion-button>
+                <ion-button
+                  size="small"
+                  fill="clear"
+                  color="danger"
+                  (click)="alterarStatus(usuario, 'suspenso')"
+                  [disabled]="usuario.status === 'suspenso'"
+                >
+                  Suspender
+                </ion-button>
+                <ion-button
+                  size="small"
+                  fill="clear"
+                  color="success"
+                  *ngIf="usuario.status !== 'ativo'"
+                  (click)="alterarStatus(usuario, 'ativo')"
+                >
+                  Reativar
+                </ion-button>
+                <ion-button size="small" fill="clear" color="medium" (click)="removerUsuario(usuario)">
+                  Excluir
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <section class="detail-panel" *ngIf="selectedUsuario as usuarioSelecionado">
+    <ion-card>
+      <div class="detail-card" *ngIf="detalhesView as detalhes; else detalhesVazios">
+        <button class="detail-close" type="button" (click)="fecharDetalhes()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+
+        <div class="detail-heading">
+          <h2>{{ detalhes.nome }}</h2>
+          <p>{{ detalhes.email }}</p>
+          <span class="badge">{{ detalhes.status }}</span>
+        </div>
+
+        <p class="detail-warning" *ngIf="detalhesErro">
+          {{ detalhesErro }}
+          <small>Exibindo dados do cache.</small>
+        </p>
+
+        <div class="detail-loader-overlay" *ngIf="detalhesCarregando">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p>Atualizando...</p>
+        </div>
+
+        <section class="detail-section">
+          <h3>Identificação</h3>
+          <div class="detail-grid">
+            <div>
+              <span>ID</span>
+              <strong>{{ detalhes.id }}</strong>
+            </div>
+            <div>
+              <span>Login</span>
+              <strong>{{ detalhes.login || 'Não informado' }}</strong>
+            </div>
+            <div>
+              <span>Perfil</span>
+              <strong>{{ detalhes.perfil | titlecase }}</strong>
+            </div>
+            <div>
+              <span>Tipo de usuário</span>
+              <strong>{{ detalhes.tipoUsuario || 'Não informado' }}</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-section">
+          <h3>Informações pessoais</h3>
+          <div class="detail-grid">
+            <div>
+              <span>Nome completo</span>
+              <strong>{{ detalhes.nome }} {{ detalhes.sobrenome || '' }}</strong>
+            </div>
+            <div>
+              <span>Data de nascimento</span>
+              <strong>{{ detalhes.dataNascimento ? (detalhes.dataNascimento | date:'longDate') : 'Não informado' }}</strong>
+            </div>
+            <div>
+              <span>Telefone</span>
+              <strong>{{ detalhes.telefone || 'Não informado' }}</strong>
+            </div>
+            <div>
+              <span>CPF</span>
+              <strong>{{ detalhes.cpf || 'Não informado' }}</strong>
+            </div>
+            <div>
+              <span>Chave Pix</span>
+              <strong>{{ detalhes.chavePix || 'Não informado' }}</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-section">
+          <h3>Status da conta</h3>
+          <div class="detail-grid">
+            <div>
+              <span>Possui loja</span>
+              <strong>{{ detalhes.possuiLoja ? 'Sim' : 'Não' }}</strong>
+            </div>
+            <div>
+              <span>Email verificado</span>
+              <strong>{{ detalhes.emailVerificado === true ? 'Sim' : detalhes.emailVerificado === false ? 'Não' : 'Desconhecido' }}</strong>
+            </div>
+            <div>
+              <span>Ativo</span>
+              <strong>{{ detalhes.ativo ? 'Sim' : 'Não' }}</strong>
+            </div>
+            <div>
+              <span>Último acesso</span>
+              <strong>{{ detalhes.ultimoAcesso ? (detalhes.ultimoAcesso | date:'short') : 'Sem registro' }}</strong>
+            </div>
+            <div>
+              <span>Data de cadastro</span>
+              <strong>{{ detalhes.dataCadastro ? (detalhes.dataCadastro | date:'short') : 'Não informado' }}</strong>
+            </div>
+            <div>
+              <span>Pedidos concluídos</span>
+              <strong>{{ detalhes.pedidosTotal }}</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="detail-section" *ngIf="detalhes.lojas?.length">
+          <h3>Lojas associadas</h3>
+          <ul class="lojas-list">
+            <li *ngFor="let loja of detalhes.lojas">{{ loja }}</li>
+          </ul>
+        </section>
+
+        <div class="detail-actions">
+          <ion-button fill="outline" color="success" size="small"
+            (click)="alterarStatus(usuarioSelecionado, 'ativo')"
+            [disabled]="usuarioSelecionado.status === 'ativo'">
+            Reativar acesso
+          </ion-button>
+          <ion-button fill="outline" color="warning" size="small"
+            (click)="alterarStatus(usuarioSelecionado, 'pendente')"
+            [disabled]="usuarioSelecionado.status === 'pendente'">
+            Marcar como pendente
+          </ion-button>
+          <ion-button fill="outline" color="danger" size="small"
+            (click)="alterarStatus(usuarioSelecionado, 'suspenso')"
+            [disabled]="usuarioSelecionado.status === 'suspenso'">
+            Suspender acesso
+          </ion-button>
+        </div>
+
+        <ion-button expand="block" color="danger" (click)="removerUsuario(usuarioSelecionado)">
+          Excluir definitivamente
+        </ion-button>
+      </div>
+
+      <ng-template #detalhesVazios>
+        <div class="detail-fallback">
+          <p>Selecione um usuário para ver os detalhes.</p>
+        </div>
+      </ng-template>
+    </ion-card>
+  </section>
+</ion-content>
+

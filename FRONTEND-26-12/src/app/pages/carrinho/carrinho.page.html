@@ -1,0 +1,100 @@
+<!-- src/app/pages/carrinho/carrinho.page.html -->
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ nomeUsuario }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding carrinho-shell">
+  <div class="hero-header">
+    <div>
+      <p class="mini-label">Seu pedido</p>
+      <h1><ion-icon name="cart-outline"></ion-icon> <span>Meu carrinho</span></h1>
+    </div>
+    <ion-chip color="warning" outline>
+      <ion-icon name="storefront-outline"></ion-icon>
+      <span>{{ lojaNome || 'Loja não definida' }}</span>
+    </ion-chip>
+  </div>
+
+  <hr class="divider">
+
+  <p class="subtitle">Gerencie seus itens antes de finalizar</p>
+
+  <div *ngIf="itens.length === 0" class="empty">
+    <ion-icon name="bag-handle-outline"></ion-icon>
+    <p>Seu carrinho está vazio</p>
+    <small>Adicione produtos deliciosos e volte aqui.</small>
+  </div>
+
+  <div class="itens-wrapper">
+    <ion-card class="card-carrinho" *ngFor="let it of itens">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img [src]="it.foto || 'assets/imagem-produto.png'" />
+        </ion-avatar>
+        <ion-label>
+          <div class="item-header">
+            <h3>{{ it.nome }}</h3>
+            <ion-chip color="light" outline>
+              <ion-icon name="fast-food-outline"></ion-icon>
+              <span>{{ lojaNome || 'Loja' }}</span>
+            </ion-chip>
+          </div>
+          <div class="meta">
+            <div class="qtd-badge">
+              <ion-icon name="git-compare-outline"></ion-icon>
+              <span>{{ it.quantidade }} un.</span>
+            </div>
+            <div class="preco">
+              <ion-icon name="pricetag-outline"></ion-icon>
+              <span>R$ {{ (it.precoUnit * it.quantidade) | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </ion-label>
+        <ion-button fill="clear" color="danger" size="small" (click)="remover(it)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </div>
+
+
+  <ion-card class="resumo-card" *ngIf="itens.length">
+    <ion-card-header>
+      <ion-card-subtitle>Resumo do pedido</ion-card-subtitle>
+      <ion-card-title>Totais</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="resumo-row">
+        <span>Itens</span>
+        <strong>{{ itens.length }}</strong>
+      </div>
+      <div class="resumo-row total">
+        <span>Total</span>
+        <strong>R$ {{ total | number:'1.2-2' }}</strong>
+      </div>
+      <ion-button expand="block" color="warning" class="cta" (click)="irFinalizar()">
+        <ion-icon slot="start" name="bag-check-outline"></ion-icon>
+        Finalizar pedido
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" routerLink="/inicio"><ion-icon name="home"></ion-icon></button>
+  <button class="btn-icon" routerLink="/pesquisa"><ion-icon name="search"></ion-icon></button>
+  <button class="btn-icon" routerLink="/conversas"><ion-icon name="chatbubbles"></ion-icon></button>
+  <button class="btn-icon" routerLink="/minha-loja"><ion-icon name="storefront"></ion-icon></button>
+      <button class="btn-icon" routerLink="/perfil"><ion-icon name="person"></ion-icon></button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

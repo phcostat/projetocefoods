@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Notificações</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="notificacao-content">
+  <ng-container *ngFor="let grupo of gruposPorData">
+    <div class="grupo-data">{{ grupo.data }}</div>
+    <ion-card *ngFor="let n of grupo.items" class="notificacao-card" [ngClass]="getCardClass(n.tipo)" (click)="toggleMarkAsRead(n)">
+      <ion-item lines="none">
+        <ion-avatar slot="start" class="notificacao-icon" [ngStyle]="{ 'background-color': getColor(n.tipo) }">
+          <ion-icon [name]="getIcon(n.tipo)" color="light"></ion-icon>
+        </ion-avatar>
+
+        <ion-label>
+          <h2 class="titulo">{{ n.titulo }}</h2>
+          <p class="mensagem">{{ n.mensagem }}</p>
+          <p class="data">{{ n.dataCriacao | date:'HH:mm' }}</p>
+        </ion-label>
+
+        <ion-note slot="end">
+          <span *ngIf="!n.lida" class="unread-dot"></span>
+        </ion-note>
+      </ion-item>
+    </ion-card>
+  </ng-container>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" routerLink="/inicio">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="abrirLojaIcon()">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

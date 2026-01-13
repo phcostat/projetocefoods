@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>{{ editando ? 'Editar Loja' : 'Criar Loja' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="voltar-container">
+  <ion-button fill="clear" color="dark" (click)="voltar()">
+    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    VOLTAR
+  </ion-button>
+</div>
+
+<ion-content class="ion-padding">
+
+  <!-- Dados da Loja -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Dados da Loja</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nome da Loja</ion-label>
+        <ion-input [(ngModel)]="nomeFantasia"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descrição</ion-label>
+        <ion-textarea auto-grow [(ngModel)]="descricao"></ion-textarea>
+      </ion-item>
+
+      <ion-item lines="none" class="foto-capa-item">
+        <ion-label position="stacked">Foto de Capa</ion-label>
+        <input type="file" accept="image/*" (change)="selecionarFotoCapa($event)">
+      </ion-item>
+      <div class="foto-capa-preview" *ngIf="fotoCapaPreview">
+        <img [src]="fotoCapaPreview" alt="Foto da loja" />
+      </div>
+      <ion-item *ngIf="fotoCapa" lines="none">
+        <ion-label position="stacked">URL atual</ion-label>
+        <ion-input [value]="fotoCapa" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Localização</ion-label>
+        <ion-input [(ngModel)]="localizacao"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Formas de Pagamento -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Formas de Pagamento</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4">
+            <ion-chip [color]="aceitaPix ? 'success' : 'medium'" (click)="aceitaPix = !aceitaPix">
+              <ion-icon name="cash-outline"></ion-icon>
+              <ion-label>PIX</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col size="4">
+            <ion-chip [color]="aceitaDinheiro ? 'success' : 'medium'" (click)="aceitaDinheiro = !aceitaDinheiro">
+              <ion-icon name="wallet-outline"></ion-icon>
+              <ion-label>Dinheiro</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col size="4">
+            <ion-chip [color]="aceitaCartao ? 'success' : 'medium'" (click)="aceitaCartao = !aceitaCartao">
+              <ion-icon name="card-outline"></ion-icon>
+              <ion-label>Cartão</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Horário de Funcionamento -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Horário de Funcionamento</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="funcionamento-container">
+        <div class="dia-box" *ngFor="let dia of ['segunda','terca','quarta','quinta','sexta','sabado','domingo']">
+          <h3>{{ dia | titlecase }}</h3>
+          <div class="turnos">
+            <ion-chip 
+              [color]="horarioFuncionamento[dia].manha ? 'success' : 'danger'" 
+              (click)="toggleTurno(dia, 'manha')">
+              <ion-label>Manhã</ion-label>
+            </ion-chip>
+            <ion-chip 
+              [color]="horarioFuncionamento[dia].tarde ? 'success' : 'danger'" 
+              (click)="toggleTurno(dia, 'tarde')">
+              <ion-label>Tarde</ion-label>
+            </ion-chip>
+            <ion-chip 
+              [color]="horarioFuncionamento[dia].noite ? 'success' : 'danger'" 
+              (click)="toggleTurno(dia, 'noite')">
+              <ion-label>Noite</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botão Final -->
+  <ion-button expand="block" shape="round" color="primary" (click)="salvar()">
+    {{ editando ? 'Salvar Alterações' : 'Criar Loja' }}
+  </ion-button>
+
+</ion-content>

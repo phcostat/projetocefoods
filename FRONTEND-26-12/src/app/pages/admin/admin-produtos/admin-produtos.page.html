@@ -1,0 +1,173 @@
+﻿<ion-header class="admin-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Produtos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="admin-shell" [fullscreen]="true">
+  <div class="admin-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Tabela: produtos</p>
+      <h1>Supervisione catálogo e estoque em tempo real.</h1>
+      <p class="section-subtitle">Alterações diretas são restritas. Utilize visibilidade e status para moderar o conteúdo.</p>
+    </div>
+  </div>
+
+  <div class="admin-panel">
+    <section class="section-card">
+      <div class="toolbar">
+        <ion-searchbar placeholder="Buscar produto ou loja" (ionInput)="atualizarBusca($event)"></ion-searchbar>
+        <ion-select label="Loja" interface="popover" value="todas" (ionChange)="atualizarLojaFiltro($event)">
+          <ion-select-option value="todas">Todas as lojas</ion-select-option>
+          <ion-select-option *ngFor="let loja of lojas$ | async" [value]="loja.id">{{ loja.nome }}</ion-select-option>
+        </ion-select>
+        <ion-select label="Status" interface="popover" (ionChange)="atualizarStatus($event)" value="todos">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          <ion-select-option value="ativo">Ativos</ion-select-option>
+          <ion-select-option value="indisponivel">Indisponíveis</ion-select-option>
+          <ion-select-option value="rascunho">Rascunhos</ion-select-option>
+        </ion-select>
+        <ion-toggle justify="space-between" (ionChange)="alternarCritico($event)">Somente estoque crítico</ion-toggle>
+      </div>
+
+      <div class="table-card">
+        <table class="data-table" *ngIf="filteredProdutos$ | async as produtos">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Produto</th>
+              <th>Loja</th>
+              <th>Estoque</th>
+              <th>Preço</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let produto of produtos; trackBy: trackById">
+              <td class="col-id">{{ produto.id }}</td>
+              <td>
+                <div class="produto-cell">
+                  <strong>{{ produto.nome }}</strong>
+                  <span class="produto-categoria">{{ produto.categoria }}</span>
+                </div>
+              </td>
+              <td>{{ produto.loja }}</td>
+              <td class="estoque">
+                <span class="stock-count" [class.low]="produto.estoque <= 10">{{ produto.estoque }}</span>
+              </td>
+              <td>R$ {{ produto.preco | number:'1.2-2' }}</td>
+              <td>
+                <span class="status-pill" [ngClass]="{
+                  'success': produto.status === 'ativo',
+                  'danger': produto.status === 'indisponivel',
+                  'warning': produto.status === 'rascunho'
+                }">{{ produto.status }}</span>
+              </td>
+              <td class="actions">
+                <ion-button size="small" fill="clear" color="medium" (click)="abrirDetalhes(produto)">Detalhes</ion-button>
+                <ion-button
+                  size="small"
+                  fill="clear"
+                  color="warning"
+                  (click)="ocultarProduto(produto)"
+                  [disabled]="produto.status === 'indisponivel'"
+                >
+                  Ocultar
+                </ion-button>
+                <ion-button
+                  size="small"
+                  fill="clear"
+                  color="success"
+                  *ngIf="produto.status !== 'ativo'"
+                  (click)="reativarProduto(produto)"
+                >
+                  Reativar
+                </ion-button>
+                <ion-button size="small" fill="clear" color="danger" (click)="removerProduto(produto)">
+                  Excluir
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <ion-modal [isOpen]="!!selectedProduto" (didDismiss)="fecharDetalhes()">
+    <ng-template>
+      <ng-container *ngIf="selectedProduto as produto; else modalFallback">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Detalhes do produto</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="fecharDetalhes()">Fechar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <div class="detail-drawer">
+            <div class="produto-hero">
+              <div class="produto-imagem">
+                <img [src]="resolveImagem(produto)" alt="Foto do produto" />
+              </div>
+              <div class="produto-headline">
+                <h3>{{ produto.nome }}</h3>
+                <p>
+                  <ion-icon name="storefront-outline"></ion-icon>
+                  {{ produto.loja }} • {{ produto.categoria }}
+                </p>
+              </div>
+            </div>
+
+            <p class="produto-descricao" *ngIf="produto.descricao">{{ produto.descricao }}</p>
+
+            <div class="detail-grid">
+              <div class="detail-card">
+                <span>Status</span>
+                <strong>{{ produto.status }}</strong>
+              </div>
+              <div class="detail-card">
+                <span>Estoque atual</span>
+                <strong>{{ produto.estoque }}</strong>
+              </div>
+              <div class="detail-card">
+                <span>Preço</span>
+                <strong>R$ {{ produto.preco | number:'1.2-2' }}</strong>
+              </div>
+              <div class="detail-card">
+                <span>Última atualização</span>
+                <strong>{{ produto.atualizadoEm ? (produto.atualizadoEm | date:'short') : 'Sem registro' }}</strong>
+              </div>
+            </div>
+
+            <div class="comment-actions">
+              <ion-button fill="outline" color="success" (click)="reativarProduto(produto)" [disabled]="produto.status === 'ativo'">
+                Reativar
+              </ion-button>
+              <ion-button fill="outline" color="warning" (click)="ocultarProduto(produto)" [disabled]="produto.status === 'indisponivel'">
+                Ocultar
+              </ion-button>
+            </div>
+            <ion-button expand="block" color="danger" (click)="removerProduto(produto)">
+              Excluir definitivamente
+            </ion-button>
+          </div>
+        </ion-content>
+      </ng-container>
+      <ng-template #modalFallback>
+        <ion-content>
+          <div class="detail-drawer">
+            <p>Não foi possível carregar os detalhes do produto.</p>
+            <ion-button expand="block" (click)="fecharDetalhes()">Fechar</ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+

@@ -1,0 +1,99 @@
+<!-- src/app/pages/loja/meus-produtos/meus-produtos.page.html -->
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ nomeUsuario }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<div class="voltar-container">
+  <ion-button fill="clear" color="dark" (click)="voltar()">
+    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    VOLTAR
+  </ion-button>
+</div>
+
+<ion-content class="ion-padding">
+  <h2>Meus Produtos</h2>
+
+  <ion-button expand="block" color="success" (click)="novoProduto()">
+    <ion-icon name="add-circle" slot="start"></ion-icon>
+    Cadastrar Novo Produto
+  </ion-button>
+
+  <div *ngIf="produtos.length === 0" class="empty">
+    <ion-text color="medium">
+      Nenhum produto cadastrado.
+    </ion-text>
+  </div>
+
+  <div class="produtos-lista" *ngIf="produtos.length > 0">
+    <ion-card *ngFor="let p of produtos" [class.oculto]="!p.disponivel">
+      <img [src]="p.imagem || 'assets/imagem-produto.png'" alt="produto">
+      <ion-card-header>
+        <ion-card-title>
+          {{ p.nome }}
+          <ion-badge *ngIf="!p.disponivel" color="medium" style="margin-left: 6px;">Oculto</ion-badge>
+        </ion-card-title>
+        <ion-card-subtitle>R$ {{ p.preco | number:'1.2-2' }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Categoria:</strong> {{ p.categoria.nome }}</p>
+        <p><strong>Tipo:</strong> {{ p.categoria.nome }}</p>
+        <p><strong>Estoque:</strong> {{ p.estoque }} un.</p>
+        <p><strong>Status:</strong> {{ p.disponivel ? 'Disponível' : 'Indisponível' }}</p>
+
+        <div class="acoes">
+
+          <div>
+            <ion-button color="tertiary" size="small" (click)="adicionarEstoque(p)">
+              <ion-icon name="add" slot="start"></ion-icon> Estoque
+            </ion-button>
+
+            <ion-button [color]="p.disponivel ? 'medium' : 'success'" size="small" (click)="alternarDisponibilidade(p)">
+              <ion-icon [name]="p.disponivel ? 'eye-off' : 'eye'" slot="start"></ion-icon>
+              {{ p.disponivel ? 'Ocultar' : 'Exibir' }}
+            </ion-button>
+          </div>
+          <div>
+            <ion-button color="primary" size="small" (click)="editarProduto(p)">
+              <ion-icon name="create" slot="start"></ion-icon> Editar
+            </ion-button>
+
+            <ion-button color="danger" size="small" (click)="excluirProduto(p)">
+              <ion-icon name="trash" slot="start"></ion-icon> Excluir
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" (click)="irMenu()">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irMinhaLoja()">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

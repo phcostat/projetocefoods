@@ -1,0 +1,207 @@
+<!-- src/app/pages/loja/minha-loja/minha-loja.page.html -->
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ nomeUsuario }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="loja; else semLoja">
+    <ion-card class="alert-card" *ngIf="lojaSuspensa">
+      <ion-card-header>
+        <ion-card-title>Operação bloqueada</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Seu estabelecimento está indisponível para os clientes enquanto o suporte conclui a revisão.</p>
+        <ion-chip color="danger" outline>
+          <ion-icon name="alert-circle"></ion-icon>
+          <ion-label>{{ obterRotuloStatusAdm(loja?.statusAdm) }}</ion-label>
+        </ion-chip>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Card da loja -->
+    <ion-card class="loja-card">
+      <div class="loja-card__media">
+        <img [src]="loja.fotoCapa || 'assets/imagem-produto.png'" alt="Loja">
+        <ion-chip class="loja-card__chip-operacao" [color]="loja.status ? 'success' : 'medium'" mode="md">
+          <ion-icon [name]="loja.status ? 'flash' : 'pause'" slot="start"></ion-icon>
+          <ion-label>{{ loja.status ? 'Operando agora' : 'Offline' }}</ion-label>
+        </ion-chip>
+      </div>
+      <ion-card-content>
+        <div class="loja-card__top">
+          <div>
+            <ion-card-title>{{ loja.nomeFantasia }}</ion-card-title>
+            <ion-card-subtitle>{{ loja.localizacao || 'Localização não informada' }}</ion-card-subtitle>
+          </div>
+          <div class="loja-card__toggle">
+            <small>{{ loja.status ? 'Aberta' : 'Fechada' }}</small>
+            <ion-toggle
+              mode="md"
+              [checked]="loja.status"
+              (ionChange)="onToggleStatus($event)"
+              [disabled]="lojaSuspensa">
+            </ion-toggle>
+          </div>
+        </div>
+
+        <div class="loja-card__grid">
+          <div class="loja-card__info">
+            <div class="info-line">
+              <span>Operação</span>
+              <ion-chip [color]="loja.status ? 'success' : 'medium'" outline>
+                <ion-icon [name]="loja.status ? 'checkmark-circle' : 'time-outline'"></ion-icon>
+                <ion-label>{{ loja.status ? 'Aberta para pedidos' : 'Fechada temporariamente' }}</ion-label>
+              </ion-chip>
+            </div>
+            <div class="info-line">
+              <span>Administração</span>
+              <ion-chip [color]="lojaSuspensa ? 'danger' : 'success'" outline>
+                <ion-icon name="shield-checkmark"></ion-icon>
+                <ion-label>{{ obterRotuloStatusAdm(loja?.statusAdm) }}</ion-label>
+              </ion-chip>
+            </div>
+            <p class="status-hint" *ngIf="!lojaSuspensa">
+              Atualize horários, cardápio e mantenha a loja aberta para aparecer na busca.
+            </p>
+            <p class="status-hint alert" *ngIf="lojaSuspensa">
+              Aguarde o contato do suporte antes de novas alterações operacionais.
+            </p>
+          </div>
+
+          <div class="loja-card__actions">
+            <ion-button expand="block" color="warning" (click)="alternarStatus()" [disabled]="lojaSuspensa">
+              {{ loja.status ? 'Fechar Loja' : 'Abrir Loja' }}
+            </ion-button>
+
+            <button class="btn-amarelo" (click)="editarLoja()" [disabled]="lojaSuspensa">
+              Editar vitrine
+            </button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <section class="painel-controles" *ngIf="loja">
+      <div class="painel-header">
+        <p class="eyebrow">Central de gestão</p>
+        <h3>Organize sua operação</h3>
+        <p>Selecione uma área para agir agora mesmo.</p>
+      </div>
+
+      <div class="atalhos-grid">
+        <button class="atalho-card" (click)="irPedidos()">
+          <div class="atalho-icon pedidos">
+            <ion-icon name="receipt-outline"></ion-icon>
+          </div>
+          <div>
+            <h4>Pedidos</h4>
+            <p>Gerencie solicitações em tempo real.</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" class="atalho-arrow"></ion-icon>
+        </button>
+
+        <button class="atalho-card" (click)="irMeusProdutos()">
+          <div class="atalho-icon produtos">
+            <ion-icon name="cube-outline"></ion-icon>
+          </div>
+          <div>
+            <h4>Produtos</h4>
+            <p>Atualize estoque e destaque novidades.</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" class="atalho-arrow"></ion-icon>
+        </button>
+
+        <button class="atalho-card" (click)="irFinancas()">
+          <div class="atalho-icon financas">
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+          <div>
+            <h4>Finanças</h4>
+            <p>Acompanhe entradas e previsões.</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" class="atalho-arrow"></ion-icon>
+        </button>
+
+        <button class="atalho-card" (click)="irRelatorio()">
+          <div class="atalho-icon relatorios">
+            <ion-icon name="stats-chart-outline"></ion-icon>
+          </div>
+          <div>
+            <h4>Relatórios</h4>
+            <p>Gere PDF com o desempenho da semana.</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" class="atalho-arrow"></ion-icon>
+        </button>
+
+        <button class="atalho-card" (click)="irNotas()">
+          <div class="atalho-icon notas">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <div>
+            <h4>Bloco de notas</h4>
+            <p>Registre ideias e demandas pontuais.</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" class="atalho-arrow"></ion-icon>
+        </button>
+      </div>
+    </section>
+
+    <section class="insights-wrapper" *ngIf="loja">
+      <ion-card class="insight-card">
+        <div class="insight-label">Status da operação</div>
+        <h4>{{ loja.status ? 'Operando normalmente' : 'Loja fechada' }}</h4>
+        <p>{{ loja.status ? 'Clientes conseguem visualizar sua vitrine.' : 'Reabra para voltar a receber pedidos.' }}</p>
+        <ion-chip [color]="loja.status ? 'success' : 'medium'" outline>
+          <ion-icon [name]="loja.status ? 'checkmark-circle' : 'time-outline'"></ion-icon>
+          <ion-label>{{ loja.status ? 'Aberta' : 'Offline' }}</ion-label>
+        </ion-chip>
+      </ion-card>
+
+      <ion-card class="insight-card secondary">
+        <div class="insight-label">Sugestão rápida</div>
+        <h4>Destaque seus favoritos</h4>
+        <p>Mantenha produtos atualizados para aparecer nos resultados da semana.</p>
+        <ion-button fill="clear" size="small" color="dark" (click)="irMeusProdutos()">
+          Atualizar cat&aacute;logo
+          <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+      </ion-card>
+    </section>
+  </ng-container>
+
+  <ng-template #semLoja>
+    <ion-text color="medium">
+      <p>Você não possui uma loja cadastrada.</p>
+    </ion-text>
+    <ion-button expand="block" color="primary" routerLink="/criar-loja">Criar Loja</ion-button>
+  </ng-template>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" routerLink="/inicio">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/minha-loja">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

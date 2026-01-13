@@ -1,0 +1,161 @@
+﻿<ion-header class="admin-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Console administrativo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="admin-shell" [fullscreen]="true">
+  <ng-container *ngIf="summary$ | async as summary">
+    <div class="admin-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Painel executivo</p>
+        <h1>Orquestre usuários, lojas, produtos e vozes do ecossistema Cefoods.</h1>
+        <p class="section-subtitle">
+          Dados sincronizados diretamente das tabelas do banco. Cada ajuste gera um log auditável em tempo real.
+        </p>
+      </div>
+      <div class="hero-figures">
+        <div class="figure-card">
+          <span>Total de usuários</span>
+          <strong>{{ summary.totalUsuarios }}</strong>
+          <small>{{ summary.usuariosRecentes }} acessos recentes</small>
+        </div>
+        <div class="figure-card">
+          <span>Lojas homologadas</span>
+          <strong>{{ summary.totalLojas }}</strong>
+          <small>{{ summary.lojasPendentes }} aguardam revisão</small>
+        </div>
+        <div class="figure-card">
+          <span>NPS médio</span>
+          <strong>{{ summary.satisfacaoMedia }}</strong>
+          <small>{{ summary.comentariosPendentes }} avaliações pendentes</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-panel">
+      <section class="section-card highlight">
+        <h2 class="section-title">Visão crítica da operação</h2>
+        <p class="section-description">
+          Métricas extraídas diretamente das entidades do banco. Use como referência para priorizar ações.
+        </p>
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <span class="label">Usuários totais</span>
+            <span class="value">{{ summary.totalUsuarios }}</span>
+            <span class="delta up">+{{ summary.usuariosRecentes }} esta semana</span>
+          </div>
+          <div class="metric-card">
+            <span class="label">Lojas operando</span>
+            <span class="value">{{ summary.totalLojas }}</span>
+            <span class="delta warning">{{ summary.lojasPendentes }} pendentes</span>
+          </div>
+          <div class="metric-card">
+            <span class="label">Produtos publicados</span>
+            <span class="value">{{ summary.totalProdutos }}</span>
+            <span class="delta down">{{ summary.produtosSemEstoque }} sem estoque</span>
+          </div>
+          <div class="metric-card">
+            <span class="label">Satisfação média</span>
+            <span class="value">{{ summary.satisfacaoMedia }}</span>
+            <span class="delta up">Avaliações sob curadoria</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <h3>Atalhos das tabelas</h3>
+            <p>Entre diretamente na tabela desejada. Atualizações são persistidas imediatamente.</p>
+          </div>
+        </div>
+        <div class="quick-links">
+          <a class="quick-link" *ngFor="let item of quickLinks" [routerLink]="item.route">
+            <div class="icon-ring" [style.background]="item.accent">
+              <ion-icon [name]="item.icon"></ion-icon>
+            </div>
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.description }}</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="section-card two-columns">
+        <div>
+          <h3>Produtos em atenção</h3>
+          <p>Filhos das tabelas de produtos, ordenados pelo estoque crítico.</p>
+          <div class="table-card">
+            <table class="data-table" *ngIf="produtosCriticos$ | async as produtos">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Loja</th>
+                  <th>Estoque</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let produto of produtos">
+                  <td>
+                    <strong>{{ produto.nome }}</strong>
+                    <small>{{ produto.categoria }}</small>
+                  </td>
+                  <td>{{ produto.loja }}</td>
+                  <td>{{ produto.estoque | number }}</td>
+                  <td>
+                    <span class="status-pill" [ngClass]="{
+                      'danger': produto.estoque === 0,
+                      'warning': produto.estoque > 0 && produto.estoque <= 10,
+                      'success': produto.estoque > 10
+                    }">
+                      {{ produto.status }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <h3>Comentários pendentes</h3>
+          <p>Itens aguardando curadoria antes da publicação.</p>
+          <div class="pending-comments" *ngIf="comentariosPendentes$ | async as comentarios">
+            <article class="comment-card" *ngFor="let comentario of comentarios">
+              <header>
+                <strong>{{ comentario.usuario }}</strong>
+                <span>{{ comentario.criadoEm | date:'short' }}</span>
+              </header>
+              <p>{{ comentario.mensagem }}</p>
+              <div class="tag-list">
+                <span class="tag" *ngFor="let tag of comentario.tags">{{ tag }}</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3>Últimas atividades</h3>
+        <p>Feed consolidado dos principais eventos administrativos.</p>
+        <ul class="activity-feed">
+          <li *ngFor="let activity of atividades$ | async" [class]="activity.severity">
+            <div>
+              <span class="area">{{ activity.area }}</span>
+              <p>{{ activity.mensagem }}</p>
+            </div>
+            <time>{{ activity.timestamp | date:'short' }}</time>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </ng-container>
+</ion-content>
+

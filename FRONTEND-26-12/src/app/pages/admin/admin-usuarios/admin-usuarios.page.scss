@@ -1,0 +1,153 @@
+@import '../admin-shared';
+
+.actions ion-button {
+  margin-left: 0.25rem;
+}
+
+.data-table td small {
+  display: block;
+  margin-top: 0.15rem;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.detail-panel {
+  margin: 1.5rem 0 3rem;
+}
+
+.detail-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.5rem;
+}
+
+.detail-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(15, 23, 42, 0.08);
+  border: none;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.detail-heading {
+  text-align: center;
+  h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  p {
+    margin: 0.2rem 0 0;
+    color: #64748b;
+  }
+  .badge {
+    margin-top: 0.6rem;
+    display: inline-block;
+    background: #e2e8f0;
+    color: #0f172a;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+}
+
+.detail-section {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1rem;
+  h3 {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    color: #0f172a;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.6rem;
+  div {
+    background: #fff;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+  }
+  span {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+  strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+    color: #0f172a;
+  }
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: space-between;
+}
+
+.detail-loader-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #475569;
+  gap: 0.5rem;
+  background: rgba(248, 250, 252, 0.92);
+  backdrop-filter: blur(3px);
+  border-radius: 20px;
+}
+
+.detail-warning {
+  margin: 0;
+  background: rgba(255, 107, 107, 0.12);
+  color: #b91c1c;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  text-align: center;
+  small {
+    display: block;
+    margin-top: 0.2rem;
+    color: inherit;
+    opacity: 0.85;
+  }
+}
+
+.detail-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.8rem;
+  min-height: 200px;
+  color: #475569;
+}
+
+.lojas-list {
+  margin: 0;
+  padding-left: 1rem;
+  li {
+    margin-bottom: 0.3rem;
+    color: #0f172a;
+  }
+}

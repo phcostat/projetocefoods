@@ -1,0 +1,95 @@
+﻿<ion-header class="admin-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Comentários</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="admin-shell" [fullscreen]="true">
+  <div class="admin-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Tabela: comentários</p>
+      <h1>Curadoria das avaliações com workflow integrado.</h1>
+      <p class="section-subtitle">Acompanhe status, etiquetas e canais de chegada.</p>
+    </div>
+  </div>
+
+  <div class="admin-panel">
+    <section class="section-card comments-card">
+      <div class="toolbar">
+        <ion-searchbar placeholder="Buscar usuario, loja ou palavra-chave" (ionInput)="atualizarBusca($event)"></ion-searchbar>
+        <ion-select label="Canal" interface="popover" value="todos" (ionChange)="atualizarCanal($event)">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          <ion-select-option value="app">App</ion-select-option>
+          <ion-select-option value="whatsapp">WhatsApp</ion-select-option>
+          <ion-select-option value="suporte">Suporte</ion-select-option>
+        </ion-select>
+      </div>
+      <ion-segment value="todos" (ionChange)="atualizarStatus($event)">
+        <ion-segment-button value="todos">Todos</ion-segment-button>
+        <ion-segment-button value="pendente">Pendentes</ion-segment-button>
+        <ion-segment-button value="aprovado">Aprovados</ion-segment-button>
+        <ion-segment-button value="oculto">Ocultos</ion-segment-button>
+      </ion-segment>
+
+      <div class="comments-layout">
+        <div class="comments-list" *ngIf="filteredComentarios$ | async as comentarios">
+          <article class="comment-line" *ngFor="let comentario of comentarios; trackBy: trackById" (click)="selecionar(comentario)">
+            <header>
+              <div class="comment-header-info">
+                <span class="comment-id">#{{ comentario.id }}</span>
+                <strong>{{ comentario.usuario }}</strong>
+              </div>
+              <span>{{ comentario.criadoEm | date:'short' }}</span>
+            </header>
+            <p>{{ comentario.mensagem }}</p>
+            <footer>
+              <span>{{ comentario.loja }} - {{ comentario.produto }}</span>
+              <span class="status-pill" [ngClass]="{
+                'warning': comentario.status === 'pendente',
+                'success': comentario.status === 'aprovado',
+                'danger': comentario.status === 'oculto'
+              }">{{ comentario.status }}</span>
+            </footer>
+          </article>
+        </div>
+
+        <div class="comment-detail" *ngIf="selectedComentario; else placeholder">
+          <h3>#{{ selectedComentario.id }} · {{ selectedComentario.usuario }}</h3>
+          <p class="meta">{{ selectedComentario.loja }} - {{ selectedComentario.produto }}</p>
+          <p>{{ selectedComentario.mensagem }}</p>
+
+          <ul class="detail-list">
+            <li>
+              <span>Status atual</span>
+              <strong>{{ selectedComentario.status }}</strong>
+            </li>
+            <li>
+              <span>Canal</span>
+              <strong>{{ selectedComentario.canal }}</strong>
+            </li>
+            <li>
+              <span>Etiquetas</span>
+              <strong>{{ selectedComentario.tags?.length ? selectedComentario.tags.join(', ') : 'Sem tags' }}</strong>
+            </li>
+          </ul>
+
+          <div class="comment-actions">
+            <ion-button fill="outline" color="success" (click)="atualizarStatusComentario('aprovado')">Aprovar</ion-button>
+            <ion-button fill="outline" color="medium" (click)="atualizarStatusComentario('pendente')">Revisar depois</ion-button>
+            <ion-button fill="outline" color="danger" (click)="atualizarStatusComentario('oculto')">Ocultar</ion-button>
+          </div>
+          <ion-button expand="block" color="danger" (click)="removerComentario()">Excluir comentário</ion-button>
+        </div>
+        <ng-template #placeholder>
+          <div class="comment-placeholder">
+            <p>Selecione um comentário para curadoria.</p>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+  </div>
+</ion-content>
+

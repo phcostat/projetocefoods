@@ -1,0 +1,135 @@
+.header-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.top-bar {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+  color: #fff;
+  padding: 8px 12px;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.usuario {
+  background:#FFD54F;
+  color:#000;
+  padding:6px 10px;
+  border-radius: 18px;
+  font-weight:600;
+}
+
+.has-footer {
+  --padding-bottom: 80px;
+}
+
+.total-info, .pagamento-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.botoes-acao {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pending {
+  color: orange;
+}
+
+.accepted {
+  color: blue;
+}
+
+.completed {
+  color: green;
+}
+
+.cancelled {
+  color: red;
+}
+
+.sem-pedidos {
+  text-align: center;
+  color: #777;
+  margin-top: 20px;
+}
+
+.filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mensagem-vazio {
+  text-align: center;
+  color: #888;
+  margin-top: 50px;
+}
+
+.mensagem-vazio ion-icon {
+  font-size: 3rem;
+  color: #ccc;
+}
+.pedido-data {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.pedido-itens {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.item-linha {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pedido-total {
+  margin-top: 12px;
+  font-size: 1.1rem;
+}
+
+.botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+
+
+.footer-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.bottom-bar {
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 10px;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: #000000;
+}
+

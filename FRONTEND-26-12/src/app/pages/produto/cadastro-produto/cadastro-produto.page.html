@@ -1,0 +1,95 @@
+<ion-header> 
+  <ion-toolbar color="danger"> 
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ editMode ? 'Editar Produto' : 'Cadastrar Produto' }}</ion-title>
+  </ion-toolbar> 
+</ion-header>
+
+<ion-content class="cadastro-produto-content">
+
+  <!-- Card centralizado -->
+  <div class="card-wrap">
+    <ion-card class="cadastro-card">
+      <ion-card-content>
+
+        <!-- Header -->
+        <div class="cadastro-header">
+          <h2>{{ editMode ? 'Editar Produto' : 'Cadastrar Produto' }}</h2>
+          <p>Preencha os detalhes abaixo para {{ editMode ? 'atualizar seu produto' : 'adicionar um novo produto' }}</p>
+        </div>
+
+        <!-- Formulário -->
+        <form (ngSubmit)="salvar()">
+
+          <ion-list lines="none" class="form-list">
+
+            <ion-item>
+              <ion-icon slot="start" name="pricetag-outline"></ion-icon>
+              <ion-input placeholder="Nome" [(ngModel)]="produto.nome" name="nome" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-icon slot="start" name="document-text-outline"></ion-icon>
+              <ion-textarea placeholder="Descrição" [(ngModel)]="produto.descricao" name="descricao"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-icon slot="start" name="cash-outline"></ion-icon>
+              <ion-input type="number" placeholder="Preço" [(ngModel)]="produto.preco" name="preco"
+                required></ion-input>
+            </ion-item>
+
+            <!-- Categoria -->
+            <ion-item>
+              <ion-icon slot="start" name="grid-outline"></ion-icon>
+              <ion-select [(ngModel)]="produto.idCategoria" name="idCategoria" interface="popover"
+                placeholder="Categoria">
+                <ion-select-option *ngFor="let cat of categorias" [value]="cat.idCategoria">
+                  {{ cat.nome }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-icon slot="start" name="cube-outline"></ion-icon>
+              <ion-input type="number" placeholder="Quantidade em estoque" [(ngModel)]="produto.estoque"
+                name="estoque"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+              <ion-label>Disponível</ion-label>
+              <ion-toggle [(ngModel)]="produto.disponivel" name="disponivel"></ion-toggle>
+            </ion-item>
+
+            <ion-item lines="none" class="imagem-item">
+              <ion-icon slot="start" name="image-outline"></ion-icon>
+              <ion-label position="stacked">Imagem do Produto</ion-label>
+              <input type="file" accept="image/*" (change)="selecionarImagem($event)">
+            </ion-item>
+            <div class="imagem-preview" *ngIf="imagemPreview">
+              <img [src]="imagemPreview" alt="Imagem do produto" />
+            </div>
+            <ion-item *ngIf="produto.imagem || produto.foto" lines="none">
+              <ion-label position="stacked">URL atual</ion-label>
+              <ion-input [value]="produto.imagem || produto.foto" readonly></ion-input>
+            </ion-item>
+
+          </ion-list>
+
+          <!-- Botão -->
+          <ion-button expand="block" color="danger" shape="round" type="submit">
+            <ion-icon slot="start" [name]="editMode ? 'save-outline' : 'add-circle-outline'"></ion-icon>
+            {{ editMode ? 'Salvar Alterações' : 'Cadastrar Produto' }}
+          </ion-button>
+        </form>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

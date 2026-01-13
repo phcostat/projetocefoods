@@ -1,0 +1,208 @@
+
+.cadastro-content {
+  --background: transparent;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  position: relative;
+  background: radial-gradient(circle at -10% -30%, rgba(255,255,255,0.35) 0%, transparent 45%),
+    linear-gradient(135deg, #b9041d 0%, #e43126 55%, #ff5b45 100%);
+  font-family: 'Poppins', 'SF Pro Display', sans-serif;
+  overflow: hidden;
+}
+
+.cadastro-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/assets/shapes.svg') center/cover;
+  opacity: 0.12;
+  filter: blur(1px);
+  pointer-events: none;
+  mask-image: radial-gradient(circle at top, rgba(0,0,0,0.65), transparent 60%);
+}
+
+.cadastro-content::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  left: 1.5rem;
+  width: 120px;
+  height: 40px;
+  background: url('/assets/logos/logo1cefoodsbranca.png') center/contain no-repeat;
+  opacity: 0.25;
+}
+
+.cadastro-content::before,
+.cadastro-content::after {
+  box-shadow: none;
+  user-select: none;
+}
+
+.card-wrap {
+  width: min(100%, 460px);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.cadastro-card {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  padding: 12px;
+  border-left: 8px solid #ff3b30;
+
+  ion-card-content { padding: 22px; }
+}
+
+/* Header */
+.cadastro-header {
+  text-align: center;
+  margin-bottom: 16px;
+
+  h2 { font-weight: bold; color: #ff3b30; }
+  p { font-size: 0.9rem; color: #555; }
+
+  .voltar-login { text-align: left; margin-bottom: 12px; }
+}
+
+/* barra de progresso */
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  .step {
+    flex: 1;
+    text-align: center;
+    color: #aaa;
+    font-size: 0.8rem;
+
+    ion-icon {
+      font-size: 22px;
+      display: block;
+      margin: auto;
+      margin-bottom: 4px;
+    }
+  }
+
+  .step.active {
+    color: #ff3b30;
+    font-weight: 600;
+  }
+}
+
+.progress-line {
+  height: 6px;
+  background: #eee;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #ff3b30 0%, #ff6a00 100%);
+    width: 66%; /* etapa1 */
+    transition: width 0.3s ease;
+  }
+
+  &.etapa2::after { width: 33%; }
+  &.etapa3::after { width: 100%; }
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  color: #555;
+}
+
+
+/* Formulário */
+.form-list {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+
+  ion-item {
+    --padding-start: 0;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    --background: #fafafa;
+
+    ion-icon { color: #ff3b30; margin-right: 8px; }
+  }
+}
+
+/* Cards tipo de usuário (vertical) */
+.tipo-usuario-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.tipo-card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+
+  .tipo-icon { font-size: 28px; margin-right: 12px; color: #888; }
+  .tipo-info h3 { margin: 0; font-size: 1rem; font-weight: bold; }
+  .tipo-info p { margin: 0; font-size: 0.8rem; color: #666; }
+}
+
+.tipo-card.selecionado {
+  border-color: #ff3b30;
+  background: #ffe6e1;
+  .tipo-icon { color: #ff3b30; }
+}
+
+/* Botões */
+.botoes-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+ion-button {
+  font-weight: bold;
+}
+
+/*.cadastro-btn {
+  --background: linear-gradient(90deg, #ff3b30 0%, #ff6a00 100%);
+  --box-shadow: 0 10px 30px rgba(255,60,60,0.18);
+  color: #fff;
+  font-weight: 800;
+  height: 48px;
+  margin-top: 6px;
+}*/
+
+.cadastro-btn {
+  --background: linear-gradient(90deg, #ff3b30 0%, #ff6a00 100%);
+  --box-shadow: 0 10px 30px rgba(255,60,60,0.18);
+  color: #fff;
+}

@@ -1,0 +1,39 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ nota?.titulo }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="deletarNota()">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Título e data -->
+  <div class="nota-info">
+    <h2>{{ nota?.titulo }}</h2>
+    <p class="data">{{ nota?.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</p>
+  </div>
+
+  <!-- Texto da nota -->
+  <div class="texto-nota" [innerHTML]="nota?.texto"></div>
+
+  <!-- Anexos -->
+  <ion-list *ngIf="nota?.anexos?.length">
+    <ion-item *ngFor="let a of nota.anexos">
+      <ion-label>
+        <h3>{{ a.nomeArquivo }}</h3>
+        <p>{{ a.tipo }} — {{ a.tamanho | number }} bytes</p>
+      </ion-label>
+      <ion-button fill="clear" (click)="baixar(a)">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,148 @@
+﻿<ion-header class="admin-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Lojas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="admin-shell" [fullscreen]="true">
+  <div class="admin-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Tabela: lojas</p>
+      <h1>Homologações, faturamento e níveis de serviço por loja.</h1>
+      <p class="section-subtitle">Restrito a curadoria: revise status e visibilidade sem alterar os dados originais.</p>
+    </div>
+  </div>
+
+  <div class="admin-panel">
+    <section class="section-card">
+      <div class="toolbar">
+        <ion-searchbar placeholder="Buscar loja, responsável ou cidade" (ionInput)="atualizarBusca($event)"></ion-searchbar>
+        <ion-select label="Status" interface="popover" (ionChange)="atualizarStatus($event)" value="todos">
+          <ion-select-option value="todos">Todas</ion-select-option>
+          <ion-select-option value="operando">Operando</ion-select-option>
+          <ion-select-option value="fechada">Fechadas</ion-select-option>
+          <ion-select-option value="suspensa">Suspensas</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="store-grid" *ngIf="filteredLojas$ | async as lojas">
+        <article class="store-card" *ngFor="let loja of lojas; trackBy: trackById">
+          <header class="store-card__header">
+            <div class="store-card__identity">
+              <h3>{{ loja.nome }}</h3>
+              <p>{{ loja.categoria }} · {{ loja.cidade }}</p>
+            </div>
+            <div class="store-card__badges">
+              <span class="status-pill" [ngClass]="{
+                'success': loja.status === 'operando',
+                'warning': loja.status === 'fechada',
+                'danger': loja.status === 'suspensa'
+              }">{{ loja.status }}</span>
+              <ion-chip size="small" [color]="loja.statusAdm === 'ATIVA' ? 'success' : loja.statusAdm === 'EM_ANALISE' ? 'warning' : 'danger'" outline>
+                <ion-label>{{ loja.statusAdm }}</ion-label>
+              </ion-chip>
+            </div>
+          </header>
+
+          <section class="store-status">
+            <div>
+              <small>Disponibilidade</small>
+              <h4>{{ loja.status === 'operando' ? 'Aberta para pedidos' : 'Fechada' }}</h4>
+              <p class="store-status__hint" *ngIf="loja.status === 'operando'">Clientes conseguem visualizar a vitrine.</p>
+              <p class="store-status__hint" *ngIf="loja.status !== 'operando'">Ausente da busca até nova abertura.</p>
+            </div>
+            <ion-button size="small"
+              [color]="loja.status === 'operando' ? 'warning' : 'success'"
+              (click)="alternarOperacao(loja)">
+              {{ loja.status === 'operando' ? 'Fechar loja' : 'Abrir loja' }}
+            </ion-button>
+          </section>
+
+          <div class="store-metrics">
+            <div>
+              <small>Pedidos hoje</small>
+              <strong>{{ loja.pedidosHoje }}</strong>
+            </div>
+            <div>
+              <small>Avaliação</small>
+              <strong>{{ loja.avaliacaoMedia | number:'1.1-1' }}</strong>
+            </div>
+            <div>
+              <small>Faturamento (mês)</small>
+              <strong>R$ {{ loja.faturamentoMes | number }}</strong>
+            </div>
+          </div>
+
+          <footer class="store-card__footer">
+            <div>
+              <small>Responsável</small>
+              <p>{{ loja.responsavel }}</p>
+            </div>
+            <div class="actions">
+                <ion-button size="small" fill="clear" color="medium" (click)="abrirDetalhes(loja)">Detalhes</ion-button>
+                <ion-button size="small" fill="outline" color="success" (click)="alterarStatusAdm(loja, 'ATIVA')">Aprovar</ion-button>
+                <ion-button size="small" fill="outline" color="danger" (click)="alterarStatusAdm(loja, 'SUSPENSA')">Suspender</ion-button>
+                <ion-button size="small" fill="clear" color="dark" (click)="removerLoja(loja)">Remover</ion-button>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <ion-modal [isOpen]="!!selectedLoja" (didDismiss)="fecharDetalhes()">
+    <ng-container *ngIf="selectedLoja as loja">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Detalhes da loja</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="fecharDetalhes()">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div class="detail-drawer">
+          <h3>{{ loja.nome }}</h3>
+          <p>{{ loja.cidade }} • {{ loja.categoria }}</p>
+          <ul class="detail-list">
+            <li>
+              <span>Status</span>
+              <strong>{{ loja.status }}</strong>
+            </li>
+            <li>
+              <span>Pedidos hoje</span>
+              <strong>{{ loja.pedidosHoje }}</strong>
+            </li>
+            <li>
+              <span>Avaliação média</span>
+              <strong>{{ loja.avaliacaoMedia | number:'1.1-1' }}</strong>
+            </li>
+            <li>
+              <span>Faturamento (mês)</span>
+              <strong>R$ {{ loja.faturamentoMes | number }}</strong>
+            </li>
+            <li>
+              <span>Responsável</span>
+              <strong>{{ loja.responsavel }}</strong>
+            </li>
+          </ul>
+          <div class="comment-actions">
+              <ion-button fill="outline" color="success" (click)="alterarStatusAdm(loja, 'ATIVA')">
+              Aprovar operação
+            </ion-button>
+              <ion-button fill="outline" color="danger" (click)="alterarStatusAdm(loja, 'SUSPENSA')">
+              Suspender temporariamente
+            </ion-button>
+          </div>
+          <ion-button expand="block" color="dark" (click)="removerLoja(loja)">
+            Remover da lista
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-container>
+  </ion-modal>
+</ion-content>
+

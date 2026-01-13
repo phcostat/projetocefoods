@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="messages">
+    <div *ngFor="let m of messages" [class.me]="m.fromId === (auth.getUsuarioLogado()?.idUsuario)">
+      <div class="bubble">
+        <div class="text">{{ m.text }}</div>
+        <div class="time">{{ m.timestamp | date:'shortTime' }}</div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input [(ngModel)]="text" placeholder="Digite uma mensagem"></ion-input>
+      <ion-button (click)="send()">Enviar</ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

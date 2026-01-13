@@ -1,0 +1,108 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar">
+      <button class="btn-voltar" (click)="voltar()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <div class="logo">Relatórios</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="relatorios-content">
+  <section class="builder-card" *ngIf="loja">
+    <div class="builder-header">
+      <div>
+        <p class="eyebrow">Central de relatórios</p>
+        <h2>{{ loja.nomeFantasia }}</h2>
+      </div>
+      <ion-segment [value]="tipoPeriodo" (ionChange)="atualizarTipoPeriodo($event.detail.value)">
+        <ion-segment-button value="SEMANAL">
+          <ion-label>Semanal</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="MENSAL">
+          <ion-label>Mensal</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div class="period-row">
+      <span class="period-label">Período sugerido</span>
+      <span class="period-value">{{ periodoLabel }}</span>
+    </div>
+
+    <div class="dates-row">
+      <ion-item lines="none">
+        <ion-label position="stacked">Início</ion-label>
+        <ion-input type="date" [(ngModel)]="dataInicio"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Fim</ion-label>
+        <ion-input type="date" [(ngModel)]="dataFim"></ion-input>
+      </ion-item>
+    </div>
+
+    <div *ngIf="snapshot; else snapshotVazio" class="snapshot-card" [class.snapshot-warning-border]="snapshotDesatualizado">
+      <div class="snapshot-grid">
+        <article>
+          <p>Receita total</p>
+          <strong>{{ snapshot.receitaTotal | currency:'BRL' }}</strong>
+        </article>
+        <article>
+          <p>Ticket médio</p>
+          <strong>{{ snapshot.ticketMedio | currency:'BRL' }}</strong>
+        </article>
+        <article>
+          <p>Pedidos</p>
+          <strong>{{ snapshot.pedidosRecebidos }}</strong>
+          <small>{{ snapshot.pedidosAceitos }} aceitos · {{ snapshot.pedidosRecusados }} recusados</small>
+        </article>
+        <article>
+          <p>Taxa de conversão</p>
+          <strong>{{ snapshot.taxaConversao | number:'1.0-1' }}%</strong>
+        </article>
+      </div>
+      <p class="snapshot-hint" *ngIf="snapshotDesatualizado">
+        Dados atualizados há algum tempo. Reabra a visão financeira para sincronizar as métricas antes de gerar novos PDFs.
+      </p>
+    </div>
+
+    <ng-template #snapshotVazio>
+      <div class="snapshot-card empty">
+        <p>Abra a página Financeiro para atualizar os indicadores antes de solicitar um relatório.</p>
+      </div>
+    </ng-template>
+
+    <ion-button expand="block" color="dark" [disabled]="!podeGerar" (click)="gerarRelatorio()">
+      <ion-icon slot="start" name="document-text-outline"></ion-icon>
+      Gerar relatório em PDF
+    </ion-button>
+  </section>
+
+  <section class="lista-card">
+    <div class="lista-header">
+      <h3>Relatórios anteriores</h3>
+      <ion-spinner *ngIf="carregandoLista" name="dots"></ion-spinner>
+    </div>
+
+    <ion-list *ngIf="relatorios.length; else listaVazia">
+      <ion-item lines="full" *ngFor="let rel of relatorios; trackBy: trackByRelatorio">
+        <ion-label>
+          <h4>#{{ rel.idRelatorio }} · {{ rel.tipoPeriodo | titlecase }} · {{ rel.dataInicio | date:'dd/MM' }} — {{ rel.dataFim | date:'dd/MM/yyyy' }}</h4>
+          <p>
+            {{ rel.receitaTotal | currency:'BRL' }} · {{ rel.pedidosRecebidos }} pedidos · {{ rel.status }}
+          </p>
+        </ion-label>
+        <ion-button slot="end" fill="clear" color="dark" (click)="baixarRelatorio(rel)" [disabled]="!rel.arquivoUrl">
+          <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ng-template #listaVazia>
+      <div class="lista-empty">
+        <p>Nenhum relatório gerado ainda.</p>
+      </div>
+    </ng-template>
+  </section>
+</ion-content>

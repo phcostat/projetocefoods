@@ -1,0 +1,7 @@
+{
+  "name": "GerenciarTarefa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

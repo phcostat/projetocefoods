@@ -1,0 +1,213 @@
+.header-fixed { position: sticky; top: 0; z-index: 1000; }
+.top-bar { display:flex; justify-content: space-between; align-items: center; width:100%; color:#fff; padding:8px 12px; }
+.logo { font-weight:800; font-size:20px; }
+.usuario { background:#FFD54F; color:#000; padding:6px 10px; border-radius:18px; font-weight:600; }
+
+
+.lojas-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.loja-card {
+  flex: 0 0 auto;
+  width: 150px;
+  border-radius: 10px;
+  background-color: #fff;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.loja-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+.has-footer { --padding-bottom: 80px; }
+.container { padding:16px; }
+
+.subtitle { margin-top:-6px; margin-bottom:12px; color:#333; }
+.search-bar { margin-bottom:10px; }
+
+.search-prompt {
+  margin: 20px 0 10px;
+  padding: 30px 16px;
+  text-align: center;
+  color: #b4461f;
+  border-radius: 18px;
+  border: 1px dashed #f3b789;
+  background: linear-gradient(135deg, #fff9f3, #fff4e2);
+  box-shadow: inset 0 0 0 1px rgba(255, 188, 122, 0.25);
+}
+
+.search-prompt ion-icon {
+  font-size: 64px;
+  color: #e57a31;
+  margin-bottom: 10px;
+}
+
+.search-prompt h4 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.search-prompt p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #a35a33;
+}
+
+.result-title {
+  margin: 10px 0;
+  font-weight: bold;
+  border-bottom: 2px solid red;
+  padding-bottom: 4px;
+}
+
+.produto-card {
+  position: relative;
+  display:flex;
+  align-items:center;
+  background:#f9f9f9;
+  padding:10px;
+  border-radius:12px;
+  margin-bottom:10px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  cursor:pointer;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.produto-card.fechado {
+  filter: grayscale(100%) brightness(0.85);
+  cursor: not-allowed;
+}
+
+.produto-card.fechado .preco {
+  opacity: 0.6;
+}
+
+.lojas-cards {
+  margin: 16px 0;
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .card-loja {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    ion-card-content {
+      padding: 8px;
+
+      h2 {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      p {
+        font-size: 14px;
+        color: #666;
+        height: 36px;
+        overflow: hidden;
+      }
+
+      .metodo-pagamento {
+        margin-top: 6px;
+        display: flex;
+        gap: 6px;
+        ion-chip {
+          font-size: 12px;
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}
+
+
+/* src/app/pages/inicio/inicio.page.scss */
+/* ... seu CSS existente ... */
+
+ion-card.fechado {
+  position: relative;
+  filter: grayscale(100%) brightness(0.75);
+  cursor: not-allowed;
+}
+
+.badge-fechada {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* mantém o resto do seu CSS como estava */
+
+
+.produto-card img {
+  width:64px; height:64px; border-radius:8px; object-fit:cover; margin-right:12px;
+}
+
+.produto-info { flex:1; }
+.produto-info h2 { font-size:15px; font-weight:700; margin:0; }
+.produto-info .loja { font-size:12px; color:#555; margin-top:2px; }
+
+.avaliacao { color:gold; font-size:14px; display:flex; align-items:center; gap:4px; }
+.media-text { color:#666; font-size:12px; }
+
+.categoria { font-size:12px; color:#777; margin-top:2px; }
+
+.preco {
+  font-size:14px; font-weight:700; background:#FFD54F; padding:6px 10px; border-radius:10px; color:#000; white-space:nowrap;
+}
+
+.empty { text-align:center; color:#666; margin-top:20px; }
+
+/* botão fixo do carrinho */
+.btn-carrinho-fixo {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  background-color: #fdd835;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 26px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  display:flex; align-items:center; justify-content:center;
+  z-index: 1100;
+}
+
+/* footer fixo */
+.footer-fixed { position: fixed; bottom:0; left:0; right:0; z-index: 1000; }
+.bottom-bar { display:flex; justify-content: space-around; align-items:center; padding:6px 10px; }
+.btn-icon { background:transparent; border:none; font-size:22px; }

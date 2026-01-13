@@ -1,0 +1,15 @@
+{
+  "name": "gt-chat-server",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "cors": "^2.8.5",
+    "mysql2": "^3.5.2",
+    "dotenv": "^16.1.4"
+  }
+}

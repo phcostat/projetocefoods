@@ -1,0 +1,119 @@
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ nomeUsuario }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <ion-item>
+      <ion-label>Ordenar por</ion-label>
+      <ion-select [(ngModel)]="filtroData" (ionChange)="aplicarFiltros()">
+        <ion-select-option value="recente">Mais recente</ion-select-option>
+        <ion-select-option value="antigo">Mais antigo</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select [(ngModel)]="filtroStatus" (ionChange)="aplicarFiltros()">
+        <ion-select-option value="todos">Todos</ion-select-option>
+        <ion-select-option value="PENDING">Pendente</ion-select-option>
+        <ion-select-option value="ACCEPTED">Aceito</ion-select-option>
+        <ion-select-option value="COMPLETED">Concluído</ion-select-option>
+        <ion-select-option value="CANCELLED">Recusado</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Mensagem quando não há pedidos -->
+  <div *ngIf="pedidosFiltrados.length === 0" class="mensagem-vazio">
+    <ion-icon name="cart-outline"></ion-icon>
+    <p>Nenhum pedido encontrado.</p>
+  </div>
+
+  <!-- Lista de pedidos -->
+  <!-- Lista de pedidos -->
+  <ion-card *ngFor="let pedido of pedidosFiltrados">
+    <ion-card-header>
+      <ion-card-title>Pedido #{{ pedido.idPedido }}</ion-card-title>
+      <ion-badge [color]="pedido.status === 'PENDING' ? 'warning' 
+                            : pedido.status === 'ACCEPTED' ? 'primary' 
+                            : pedido.status === 'COMPLETED' ? 'success' 
+                            : 'danger'">
+        {{ pedido.status }}
+      </ion-badge>
+      <p class="pedido-data">{{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</p>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Cliente:</strong> {{ pedido.nomeCliente }}</p>
+      <p><strong>Pagamento:</strong> {{ pedido.formaPagamento }}</p>
+
+      <div class="pedido-itens">
+        <p><strong>Itens do pedido:</strong></p>
+        <div *ngFor="let item of pedido.itens" class="item-linha">
+          <span>{{ item.quantidade }}x {{ item.nomeProduto }}</span>
+          <span>{{ item.subtotal | currency:'BRL' }}</span>
+        </div>
+      </div>
+
+      <p class="pedido-total">
+        <strong>Total:</strong> {{ pedido.valorTotal || pedido.total | currency:'BRL' }}
+      </p>
+
+      <!-- Botões de ação -->
+      <div class="botoes">
+        <!-- Só aparecem se estiver PENDING -->
+        <ion-button color="medium" fill="outline" *ngIf="pedido.status === 'PENDING'" (click)="recusarPedido(pedido)">
+          Recusar
+        </ion-button>
+
+        <ion-button color="primary" *ngIf="pedido.status === 'PENDING'" (click)="aceitarPedido(pedido)">
+          Aceitar
+        </ion-button>
+
+        <!-- Só aparece se já foi aceito -->
+        <ion-button color="success" *ngIf="pedido.status === 'ACCEPTED'" (click)="concluirPedido(pedido)">
+          Concluir
+        </ion-button>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+
+
+
+
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" (click)="irMenu()">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="abrirLojaIcon()">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

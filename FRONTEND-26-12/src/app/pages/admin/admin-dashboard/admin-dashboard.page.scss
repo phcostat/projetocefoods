@@ -1,0 +1,126 @@
+@import '../admin-shared';
+
+.hero-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.figure-card {
+  background: rgba(255,255,255,0.16);
+  border-radius: 24px;
+  padding: 1.1rem 1.4rem;
+  backdrop-filter: blur(8px);
+}
+
+.figure-card strong {
+  font-size: 2.2rem;
+  display: block;
+}
+
+.figure-card span {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+}
+
+.section-description {
+  color: #5a5a5a;
+  margin-bottom: 1.3rem;
+}
+
+.section-card.two-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.section-card .divider {
+  width: 1px;
+  height: 100%;
+  background: rgba(0,0,0,0.05);
+}
+
+.quick-links a {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+.quick-links a:hover {
+  transform: translateY(-4px);
+}
+
+.icon-ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  color: #1c1c1c;
+}
+
+.pending-comments {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment-card {
+  border-radius: 16px;
+  padding: 1rem;
+  background: rgba(0,0,0,0.04);
+}
+
+.comment-card header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
+}
+
+.activity-feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-feed li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.035);
+}
+
+.activity-feed li.success {
+  border-left: 5px solid #098f56;
+}
+
+.activity-feed li.alert {
+  border-left: 5px solid #c81924;
+}
+
+.activity-feed li.info {
+  border-left: 5px solid #1573ff;
+}
+
+.activity-feed .area {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.activity-feed time {
+  font-size: 0.75rem;
+  color: #777;
+}

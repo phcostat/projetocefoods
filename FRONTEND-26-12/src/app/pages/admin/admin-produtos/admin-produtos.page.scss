@@ -1,0 +1,126 @@
+@import '../admin-shared';
+
+.stock-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.05);
+  font-weight: 600;
+}
+
+.stock-count.low {
+  background: rgba(255,171,0,0.2);
+  color: #a66400;
+}
+
+.actions ion-button {
+  margin-right: 0.25rem;
+}
+
+ion-modal {
+  --width: min(400px, 88%);
+  --border-radius: 22px;
+  --max-height: 90vh;
+}
+
+.produto-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.produto-categoria {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium-shade, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.col-id {
+  font-weight: 600;
+  color: var(--ion-color-medium, #7c7c7c);
+  width: 64px;
+}
+
+.detail-drawer {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.produto-hero {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.produto-imagem {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f7f7f7;
+  flex-shrink: 0;
+}
+
+.produto-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.produto-headline h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.produto-headline p {
+  margin: 0.25rem 0 0;
+  color: var(--ion-color-medium, #71717a);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.produto-descricao {
+  margin: 0;
+  color: var(--ion-color-medium, #71717a);
+  line-height: 1.5;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.detail-card {
+  background: rgba(0, 0, 0, 0.03);
+  padding: 1rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.detail-card span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--ion-color-medium, #6b7280);
+  letter-spacing: 0.06em;
+}
+
+.detail-card strong {
+  font-size: 1rem;
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}

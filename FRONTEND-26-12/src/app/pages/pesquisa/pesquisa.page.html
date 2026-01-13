@@ -1,0 +1,195 @@
+<!--<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ (usuarioLogado?.nome || usuarioLogado?.login) || 'Visitante' }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="has-footer">
+  <div class="container">
+    <h1>BUSCAR</h1>
+    <p class="subtitle">Busque por itens, lojas ou usuários</p>
+
+    <div class="search-bar">
+      <ion-searchbar [(ngModel)]="termoPesquisa" (ionInput)="buscar()" placeholder="Ex.: Brownie ou PH Foods"
+        show-clear-button="focus">
+      </ion-searchbar>
+    </div>
+
+    <div class="search-prompt" *ngIf="!termoPesquisa || termoPesquisa.trim().length === 0">
+      <ion-icon name="search-outline"></ion-icon>
+      <h4>Que tal descobrir algo novo?</h4>
+      <p>Digite o que procura e mostramos os melhores resultados para você.</p>
+    </div>
+
+    <h3 class="result-title" *ngIf="termoPesquisa">Resultados da pesquisa</h3>
+
+    <div *ngIf="termoPesquisa && produtosFiltrados.length === 0" class="empty">
+      Nenhum produto encontrado.
+    </div>
+
+    <div *ngFor="let vm of produtosFiltrados" [class.fechado]="vm.produto.lojaFechada" class="produto-card"
+      (click)="abrirDetalhesProduto(vm.produto)">
+      <span class="badge-fechada" *ngIf="vm.produto.lojaFechada">Loja fechada</span>
+      <img [src]="vm.produto.imagem || 'assets/imagem-produto.png'" alt="produto">
+      <div class="produto-info">
+        <h2>{{ vm.produto.nome }}</h2>
+        <p class="loja">{{ vm.nomeLoja }}</p>
+        <-- Avaliação 
+        <div class="avaliacao">
+          <ion-icon *ngFor="let i of [1,2,3,4,5]" [name]="i <= vm.mediaAvaliacaoInt ? 'star' : 'star-outline'">
+          </ion-icon>
+          <span class="media-text" *ngIf="vm.mediaAvaliacao && vm.mediaAvaliacao > 0">
+            ({{ vm.mediaAvaliacao.toFixed(1) }})
+          </span>
+        </div>
+
+        <p class="categoria">{{ vm.produto.categoria.nome }}</p>
+      </div>
+      <div class="preco">
+        <span>R$ {{ vm.produto.preco | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <!-- CARDS DE LOJA --
+    <div *ngIf="lojasFiltradas.length > 0" class="lojas-cards">
+      <h3>Lojas encontradas</h3>
+      <ion-slides [options]="{ slidesPerView: 1.2, spaceBetween: 10 }">
+        <ion-slide *ngFor="let lvm of lojasFiltradas" (click)="abrirPerfilLoja(lvm.loja.idLoja)">
+          <ion-card class="card-loja">
+            <img [src]="lvm.loja.fotoCapa || 'assets/avatar_padrao.png'" alt="Loja">
+            <ion-card-content>
+              <h2>{{ lvm.loja.nomeFantasia }}</h2>
+              <p>{{ lvm.loja.descricao || 'Sem descrição' }}</p>
+              <div class="metodo-pagamento">
+                <ion-chip *ngIf="lvm.loja.aceitaPix">Pix</ion-chip>
+                <ion-chip *ngIf="lvm.loja.aceitaCartao">Cartão</ion-chip>
+                <ion-chip *ngIf="lvm.loja.aceitaDinheiro">Dinheiro</ion-chip>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+
+  </div>
+
+  <!-- Botão fixo do carrinho --
+  <button class="btn-carrinho-fixo" (click)="irCarrinho()">
+    <ion-icon name="cart"></ion-icon>
+  </button>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" (click)="irMenu()">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="abrirLojaIcon()">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>-->
+
+<ion-header class="header-fixed">
+  <ion-toolbar color="danger">
+    <div class="top-bar" slot="start">
+      <div class="logo brand-logo">
+        <img src="assets/logos/logo1cefoodsbranca.png" alt="Cefoods logo" />
+      </div>
+      <div class="usuario">{{ (usuarioLogado?.nome || usuarioLogado?.login) || 'Visitante' }}</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="has-footer">
+  <div class="container">
+    <h1>BUSCAR</h1>
+    <p class="subtitle">Busque por itens, lojas ou usuários</p>
+
+    <div class="search-bar">
+      <ion-searchbar [(ngModel)]="termoPesquisa" (ionInput)="buscar()" placeholder="Ex.: Brownie ou PH Foods"
+        show-clear-button="focus">
+      </ion-searchbar>
+    </div>
+
+    <!-- CARDS DE LOJAS -->
+    <div *ngIf="lojasFiltradas.length > 0" class="lojas-cards">
+      <h3>Lojas encontradas</h3>
+      <div class="lojas-scroll">
+        <div *ngFor="let lvm of lojasFiltradas" class="loja-card" (click)="abrirPerfilLoja(lvm.loja.idLoja)">
+          <img [src]="lvm.loja.fotoCapa || 'assets/avatar_padrao.png'" alt="Loja">
+          <h3>{{ lvm.loja.nomeFantasia }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADOS DE PRODUTOS -->
+    <h3 class="result-title" *ngIf="termoPesquisa">Resultados da pesquisa</h3>
+
+    <div *ngIf="termoPesquisa && produtosFiltrados.length === 0 && lojasFiltradas.length === 0" class="empty">
+      Nenhum produto encontrado.
+    </div>
+
+    <div *ngFor="let vm of produtosFiltrados" [class.fechado]="vm.produto.lojaFechada" class="produto-card"
+      (click)="abrirDetalhesProduto(vm.produto)">
+      <img [src]="vm.produto.imagem || 'assets/imagem-produto.png'" alt="produto">
+      <div class="produto-info">
+        <h2>{{ vm.produto.nome }}</h2>
+        <p class="loja">{{ vm.nomeLoja }}</p>
+        <div class="avaliacao">
+          <ion-icon *ngFor="let i of [1,2,3,4,5]"
+            [name]="i <= vm.mediaAvaliacaoInt ? 'star' : 'star-outline'"></ion-icon>
+          <span class="media-text" *ngIf="vm.mediaAvaliacao && vm.mediaAvaliacao > 0">
+            ({{ vm.mediaAvaliacao.toFixed(1) }})
+          </span>
+        </div>
+        <p class="categoria">{{ vm.produto.categoria.nome }}</p>
+      </div>
+      <div class="preco">
+        <span>R$ {{ vm.produto.preco | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-carrinho-fixo" (click)="irCarrinho()">
+    <ion-icon name="cart"></ion-icon>
+  </button>
+</ion-content>
+
+<ion-footer class="footer-fixed">
+  <ion-toolbar>
+    <div class="bottom-bar">
+      <button class="btn-icon" (click)="irMenu()">
+        <ion-icon name="home"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPesquisa()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="btn-icon" routerLink="/conversas">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="abrirLojaIcon()">
+        <ion-icon name="storefront"></ion-icon>
+      </button>
+      <button class="btn-icon" (click)="irPerfil()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

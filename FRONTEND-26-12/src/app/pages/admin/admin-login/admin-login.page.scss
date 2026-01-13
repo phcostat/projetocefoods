@@ -1,0 +1,107 @@
+@import '../admin-shared';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.admin-shell.login-mode {
+  --background: transparent;
+  background: linear-gradient(180deg, #fff7f5 0%, #ffe9e4 35%, #ffffff 100%);
+  font-family: 'Poppins', 'SF Pro Display', system-ui, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at -10% -20%, rgba(255,255,255,0.45) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(185,4,29,0.95) 0%, rgba(228,49,38,0.9) 55%, rgba(255,91,69,0.85) 100%);
+  opacity: 0.92;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.admin-atmosphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/shapes.svg') center/cover;
+  opacity: 0.12;
+}
+
+.login-mode .admin-panel {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.login-panel {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.login-panel ion-card {
+  max-width: 520px;
+  width: 100%;
+}
+
+.auth-card {
+  border-radius: 28px;
+  box-shadow: 0 25px 70px rgba(21,21,21,0.12);
+  background: #fff;
+  padding: 0.75rem 0 2rem;
+}
+
+ion-item {
+  --background: rgba(249,249,249,0.9);
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  --padding-start: 1rem;
+  --inner-padding-end: 0.5rem;
+}
+
+.prefs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.1rem 0;
+}
+
+.login-btn {
+  --background: linear-gradient(120deg, #f9694f 0%, #c81924 100%);
+  --box-shadow: 0 18px 50px rgba(200,25,36,0.25);
+  height: 54px;
+}
+
+.return-btn {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.actions ion-button {
+  margin-bottom: 0.75rem;
+}
+
+.error {
+  text-align: center;
+  color: #c81924;
+  font-weight: 600;
+}
+
+.login-footnote {
+  font-size: 0.85rem;
+  color: #666;
+  text-align: center;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .login-mode .admin-panel {
+    min-height: auto;
+    padding: 1.5rem 1rem 2rem;
+  }
+}
