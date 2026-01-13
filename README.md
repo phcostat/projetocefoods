@@ -1,6 +1,10 @@
 # 🍽️ CEFOODS
 ## Plataforma digital para gestão e comercialização de alimentos em ambientes coletivos
 
+Link do vídeo de apresentação: https://youtu.be/ZlQBYQI9vwM
+Link do slide de apresentação: https://www.canva.com/design/DAG-DdlmcmQ/mY93Nc8ANodF0TdyPd4mYg/edit?utm_content=DAG-DdlmcmQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+Link da documentação do projeto: https://docs.google.com/document/d/15EoSN5Nsm4Pj0tdw_4NKLNECoW5nXDVnVjXUqEosv3I/edit?usp=sharing
+
 ---
 
 ## 📌 Sumário
@@ -45,6 +49,7 @@ O **CEFOODS** propõe uma **plataforma digital unificada**, onde:
 - 🔄 O sistema organiza e sincroniza todas as operações em tempo real  
 
 Tudo isso com foco em **agilidade, controle e escalabilidade**.
+
 
 ---
 
