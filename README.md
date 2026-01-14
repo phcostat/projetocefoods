@@ -153,7 +153,7 @@ A segurança do CEFOODS foi construída com base em boas práticas:
 
 ## Escalabilidade e Aplicações
 
-O principal diferencial do CEFOODS é sua **volatilidade**, permitindo adaptação para diversos cenários:
+O principal diferencial do CEFOODS é sua **flexibilidade**, permitindo adaptação para diversos cenários:
 
 - 🏬 Praças de alimentação de shoppings
 - ✈️ Aeroportos e rodoviárias
