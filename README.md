@@ -10,7 +10,7 @@ Link da documentação do projeto: https://docs.google.com/document/d/15EoSN5Nsm
 ### Contatos: 
 Email: peh.costa11@gmail.com
 
-Instagram: @phcostat
+Instagram: @phcostat @_pedrohct
 
 GitHub: @phcostat
 
